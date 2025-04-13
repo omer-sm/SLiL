@@ -1,7 +1,8 @@
-import { optionsFromArguments, PolySynth, Synth } from "tone"
+import { EnvelopeOptions, optionsFromArguments, PolySynth, Synth } from "tone"
 import { NormalRange, Time, Frequency } from "tone/build/esm/core/type/Units"
 import { Instrument, InstrumentOptions } from "tone/build/esm/instrument/Instrument"
 import { semitonesToCents } from "../utils/noteUtils"
+import { RecursivePartial } from "tone/build/esm/core/util/Interface"
 
 export interface AdditionalSubsynthOpts {
     currentSemitoneShift: number;    
@@ -12,6 +13,7 @@ interface DriverSynthOptions extends InstrumentOptions {
     synth2: Synth;
     synth1Opts: AdditionalSubsynthOpts;
     synth2Opts: AdditionalSubsynthOpts;
+    masterEnvelope: RecursivePartial<Omit<EnvelopeOptions, "context">>;
 }
 
 export default class DriverSynth extends Instrument<DriverSynthOptions> {
@@ -20,19 +22,29 @@ export default class DriverSynth extends Instrument<DriverSynthOptions> {
     readonly synth2;
     synth1Opts: AdditionalSubsynthOpts;
     synth2Opts: AdditionalSubsynthOpts;
+    masterEnvelope: RecursivePartial<Omit<EnvelopeOptions, "context">>;
 
     constructor() {
         // eslint-disable-next-line prefer-rest-params
         const options = optionsFromArguments(DriverSynth.getDefaults(), arguments);
         super(options);
 
+        this.masterEnvelope = {
+            attack: 0.001,
+            decay: 0,
+            sustain: 1,
+            release: 0.01
+        };
+
         this.synth1 = new PolySynth(Synth, {
             oscillator: {type: 'sine'},
+            envelope: this.masterEnvelope,
             volume: -6
         }).toDestination();
         this.synth2 = new PolySynth(Synth, {
             oscillator: {type: 'sine'},
-            volume: -6
+            envelope: this.masterEnvelope,
+            volume: -6,
         }).toDestination();
 
         this.synth1Opts = {
@@ -41,6 +53,12 @@ export default class DriverSynth extends Instrument<DriverSynthOptions> {
         this.synth2Opts = {
             currentSemitoneShift: 0
         };
+    }
+
+    changeEnvelope(newEnvelope: typeof this.masterEnvelope) {
+        this.masterEnvelope = {...this.masterEnvelope, ...newEnvelope};
+        this.synth1.set({envelope: this.masterEnvelope});
+        this.synth2.set({envelope: this.masterEnvelope});
     }
 
     setSemitoneShift(
