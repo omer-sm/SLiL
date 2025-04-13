@@ -3,7 +3,7 @@ import SubsynthController from "./SubsynthController"
 import { synthState } from "../../state/Synth/synthState"
 import EnvelopeController from "./EnvelopeController"
 
-export default function SynthComponent() {
+export default function SynthTab() {
     return (
         <>
             <Row style={{ height: '100%' }}>
