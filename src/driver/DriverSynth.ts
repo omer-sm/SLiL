@@ -1,4 +1,4 @@
-import { EnvelopeOptions, optionsFromArguments, PolySynth, Synth } from "tone"
+import { EnvelopeOptions, Limiter, optionsFromArguments, PolySynth, Synth } from "tone"
 import { NormalRange, Time, Frequency } from "tone/build/esm/core/type/Units"
 import { Instrument, InstrumentOptions } from "tone/build/esm/instrument/Instrument"
 import { semitonesToCents } from "../utils/noteUtils"
@@ -14,6 +14,7 @@ interface DriverSynthOptions extends InstrumentOptions {
     synth1Opts: AdditionalSubsynthOpts;
     synth2Opts: AdditionalSubsynthOpts;
     masterEnvelope: RecursivePartial<Omit<EnvelopeOptions, "context">>;
+    limiter: Limiter;
 }
 
 export default class DriverSynth extends Instrument<DriverSynthOptions> {
@@ -23,6 +24,7 @@ export default class DriverSynth extends Instrument<DriverSynthOptions> {
     synth1Opts: AdditionalSubsynthOpts;
     synth2Opts: AdditionalSubsynthOpts;
     masterEnvelope: RecursivePartial<Omit<EnvelopeOptions, "context">>;
+    readonly limiter: Limiter;
 
     constructor() {
         // eslint-disable-next-line prefer-rest-params
@@ -39,13 +41,18 @@ export default class DriverSynth extends Instrument<DriverSynthOptions> {
         this.synth1 = new PolySynth(Synth, {
             oscillator: {type: 'sine'},
             envelope: this.masterEnvelope,
-            volume: -6
-        }).toDestination();
+            volume: -12
+        });
         this.synth2 = new PolySynth(Synth, {
             oscillator: {type: 'sine'},
             envelope: this.masterEnvelope,
-            volume: -6,
-        }).toDestination();
+            volume: -12,
+        });
+
+        this.limiter = new Limiter(-12);
+        this.synth1.connect(this.limiter);
+        this.synth2.connect(this.limiter);
+        this.limiter.connect(this.output);
 
         this.synth1Opts = {
             currentSemitoneShift: 0

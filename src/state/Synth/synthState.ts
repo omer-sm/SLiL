@@ -20,12 +20,12 @@ interface SynthStateType {
 export const synthState: SynthStateType = proxy({
     synth1Opts: {
         waveform: 'sine',
-        volume: -6,
+        volume: -12,
         semitoneShift: 0
     },
     synth2Opts: {
         waveform: 'sine',
-        volume: -6,
+        volume: -12,
         semitoneShift: 0
     },
     masterEnvelope: {
