@@ -11,7 +11,7 @@ export default function EnvelopeController() {
                 <Slider
                     min={0}
                     max={5}
-                    step={0.1}
+                    step={0.01}
                     value={envelopeSnap.attack as number}
                     onChange={(value) => synthState.masterEnvelope.attack = value}
                 />
@@ -20,7 +20,7 @@ export default function EnvelopeController() {
                 <Slider
                     min={0}
                     max={5}
-                    step={0.1}
+                    step={0.01}
                     value={envelopeSnap.decay as number}
                     onChange={(value) => synthState.masterEnvelope.decay = value}
                 />
@@ -29,10 +29,9 @@ export default function EnvelopeController() {
                 <Slider
                     min={0}
                     max={1}
-                    step={0.1}
+                    step={0.01}
                     value={envelopeSnap.sustain}
                     onChange={(value) => {
-                        console.log(value)
                         synthState.masterEnvelope.sustain = value
                     }}
                 />
@@ -41,7 +40,7 @@ export default function EnvelopeController() {
                 <Slider
                     min={0}
                     max={5}
-                    step={0.1}
+                    step={0.01}
                     value={envelopeSnap.release as number}
                     onChange={(value) => synthState.masterEnvelope.release = value}
                 />
