@@ -1,6 +1,7 @@
 import { ReactNode } from "react"
 import SynthTab from "../tabs/Synth/SynthTab"
 import PreviewTab from "../tabs/Preview/PreviewTab";
+import EffectsTab from "../tabs/Effects/EffectsTab"
 
 interface Tab {
     component: ReactNode;
@@ -15,8 +16,13 @@ export const tabs: Tab[] = [
         component: <SynthTab />
     },
     {
-        label: 'Preview',
+        label: 'Effects',
         key: 2,
+        component: <EffectsTab />
+    },
+    {
+        label: 'Preview',
+        key: 3,
         component: <PreviewTab />
     }
 ];

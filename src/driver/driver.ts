@@ -1,9 +1,9 @@
 import { getContext } from "tone"
 import DriverSynth from "./DriverSynth"
-import EffectChain from "./effectChain"
+import EffectChain from "./EffectChain"
 
 const driverSynth = new DriverSynth();
-const effectChain = new EffectChain({context: getContext()});
+export const effectChain = new EffectChain({context: getContext()});
 driverSynth.connect(effectChain.input);
 effectChain.toDestination();
 
