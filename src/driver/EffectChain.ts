@@ -35,6 +35,29 @@ export default class EffectChain extends ToneAudioNode<ToneAudioNodeOptions> {
         return id;
     }
 
+    removeEffect(id: SynthEffect['id']): void {
+        const effect = this.effects.get(id);
+        if (!effect) {
+            throw new Error(`Invalid effect id: ${id}`);
+        }
+
+        effect.inputs.forEach(inputId => {
+            const inputEffect = this.effects.get(inputId);
+            if (inputEffect) {
+                inputEffect.outputs = inputEffect.outputs.filter(output => output !== id);
+            }
+        });
+
+        effect.outputs.forEach(outputId => {
+            const outputEffect = this.effects.get(outputId);
+            if (outputEffect) {
+                outputEffect.inputs = outputEffect.inputs.filter(input => input !== id);
+            }
+        });
+
+        this.effects.delete(id);
+    }
+
     addConnection(from: SynthEffect['id'], to: SynthEffect['id']): void {
         const fromEffect = this.effects.get(from);
         const toEffect = this.effects.get(to);
@@ -68,7 +91,7 @@ export default class EffectChain extends ToneAudioNode<ToneAudioNodeOptions> {
             effect.node.dispose();
         });
         this.effects.clear();
-        
+
         return super.dispose();
     }
 }
