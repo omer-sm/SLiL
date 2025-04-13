@@ -1,6 +1,7 @@
 import { Card, Col, Flex, Row } from "antd"
 import SubsynthController from "./SubsynthController"
 import { synthState } from "../../state/Synth/synthState"
+import EnvelopeController from "./EnvelopeController"
 
 export default function SynthComponent() {
     return (
@@ -27,6 +28,7 @@ export default function SynthComponent() {
             <Row style={{ height: '100%' }}>
                 <Col span={5}>
                     <Card title='Envelope' style={{ height: '100%' }}>
+                        <EnvelopeController />
                     </Card>
                 </Col>
                 <Col span={19}>
