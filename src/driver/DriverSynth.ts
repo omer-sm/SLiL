@@ -1,9 +1,10 @@
 import { optionsFromArguments, PolySynth, Synth } from "tone"
 import { NormalRange, Time, Frequency } from "tone/build/esm/core/type/Units"
 import { Instrument, InstrumentOptions } from "tone/build/esm/instrument/Instrument"
+import { semitonesToCents } from "../utils/noteUtils"
 
 export interface AdditionalSubsynthOpts {
-    noteModifier: number;
+    currentSemitoneShift: number;    
 }
 
 interface DriverSynthOptions extends InstrumentOptions {
@@ -35,11 +36,25 @@ export default class DriverSynth extends Instrument<DriverSynthOptions> {
         }).toDestination();
 
         this.synth1Opts = {
-            noteModifier: 0
+            currentSemitoneShift: 0
         };
         this.synth2Opts = {
-            noteModifier: 0
+            currentSemitoneShift: 0
         };
+    }
+
+    setSemitoneShift(
+        subsynthNumber: 1 | 2, 
+        newShift: AdditionalSubsynthOpts['currentSemitoneShift']
+    ) {
+        const subsynth = subsynthNumber === 1 ? this.synth1 : this.synth2;
+        const subsynthOpts = subsynthNumber === 1 ? this.synth1Opts : this.synth2Opts;
+
+        const diff = newShift - subsynthOpts.currentSemitoneShift;
+        subsynth.set({
+            detune: subsynth.get().detune + semitonesToCents(diff)
+        });
+        subsynthOpts.currentSemitoneShift = newShift;
     }
 
     static getDefaults() {

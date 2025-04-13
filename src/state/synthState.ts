@@ -7,6 +7,7 @@ import { waveforms } from "../utils/waveforms"
 export interface subSynthOpts{
     waveform: typeof waveforms[number];
     volume: Decibels;
+    semitoneShift: number;
 }
 
 interface SynthStateType {
@@ -17,12 +18,22 @@ interface SynthStateType {
 export const synthState: SynthStateType = proxy({
     synth1Opts: {
         waveform: 'sine',
-        volume: -6
+        volume: -6,
+        semitoneShift: 0
     },
     synth2Opts: {
         waveform: 'sine',
-        volume: -6
+        volume: -6,
+        semitoneShift: 0
     }
+});
+
+subscribeKey(synthState.synth1Opts, 'semitoneShift', (newShift) => {
+    driverSynth.setSemitoneShift(1, newShift);
+});
+
+subscribeKey(synthState.synth2Opts, 'semitoneShift', (newShift) => {
+    driverSynth.setSemitoneShift(2, newShift);
 });
 
 subscribeKey(synthState.synth1Opts, 'waveform', (newWaveform) => {

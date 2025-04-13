@@ -34,6 +34,15 @@ export default function SubsynthController({ subsynth }: SubsynthControllerProps
                     max={6}
                 />
             </Form.Item>
+
+            <Form.Item label='shift'>
+                <Slider
+                    value={subsynthSnap.semitoneShift}
+                    onChange={(value) => subsynth.semitoneShift = value}
+                    min={-36}
+                    max={36}
+                />
+            </Form.Item>
         </Flex>
     )
 }
