@@ -1,6 +1,6 @@
 import { Card, Col, Flex, Row } from "antd"
 import SubsynthController from "./SubsynthController"
-import { synthState } from "../../state/synthState"
+import { synthState } from "../../state/Synth/synthState"
 
 export default function SynthComponent() {
     return (

@@ -1,5 +1,5 @@
 import { useSnapshot } from "valtio"
-import { subSynthOpts } from "../../state/synthState"
+import { subSynthOpts } from "../../state/Synth/synthState"
 import { waveforms } from "../../utils/waveforms"
 import { Flex, Form, Select, Slider } from "antd"
 
