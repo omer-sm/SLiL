@@ -18,7 +18,6 @@ import { themeState } from '../../state/themeState';
 import { useSnapshot } from 'valtio';
 import { useCallback } from 'react';
 import { Button, Card } from 'antd';
-import EffectEdge from './ui/EffectEdge';
 import { useEffectNodes } from '../../context/EffectNodesContext/useEffectNodes';
 
 export default function EffectsTab() {
@@ -74,7 +73,6 @@ export default function EffectsTab() {
         colorMode={themeMode}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
-        edgeTypes={{ default: EffectEdge }}
         proOptions={{ hideAttribution: true }}
         onReconnect={onReconnect}
         //@ts-expect-error onReconnectEnd is missing the fourth parameter in the typedef
