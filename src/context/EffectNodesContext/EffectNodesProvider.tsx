@@ -3,16 +3,14 @@ import { addEdge as addEdgeToState, Connection, Edge, Node } from '@xyflow/react
 import { EffectNodesContext } from './EffectNodesContext';
 import { initialEdges, initialNodes } from './initialValues';
 import { effectChain } from '../../driver/driver';
-import { Reverb } from 'tone';
-import EffectChain from '../../driver/EffectChain';
+import EffectChain, { SynthEffect } from '../../driver/EffectChain';
 
 export const EffectNodesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
   const [edges, setEdges] = useState<Edge[]>(initialEdges);
 
-  const addNode = useCallback(() => {
-    // TODO: Add an option to select the effect type
-    const effectId = effectChain.addEffect(new Reverb(1.5));
+  const addNode = useCallback((effectCtor: () => SynthEffect['node']) => {
+    const effectId = effectChain.addEffect(effectCtor());
 
     const newNode = {
       id: `${effectId}`,

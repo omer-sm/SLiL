@@ -17,8 +17,10 @@ import '@xyflow/react/dist/style.css';
 import { themeState } from '../../state/themeState';
 import { useSnapshot } from 'valtio';
 import { useCallback } from 'react';
-import { Button, Card } from 'antd';
+import { Card, Flex } from 'antd';
 import { useEffectNodes } from '../../context/EffectNodesContext/useEffectNodes';
+import { effectButtons } from './utils/effects';
+import AddEffectButton from './AddEffectButton';
 
 export default function EffectsTab() {
   const { nodes, setNodes, edges, setEdges, addNode, addEdge, removeEdge } = useEffectNodes();
@@ -62,9 +64,15 @@ export default function EffectsTab() {
   return (
     <div style={{ height: '100%', width: '100%' }}>
       <Card>
-        <Button type="primary" onClick={addNode}>
-          +
-        </Button>
+        <Flex justify='center'>
+          {effectButtons.map(({ name, color, createEffect }, index) => (
+            <AddEffectButton
+              {...{ name, color }}
+              createEffect={() => addNode(createEffect)}
+              key={index}
+            />
+          ))}
+        </Flex>
       </Card>
       <ReactFlow
         nodes={nodes}
