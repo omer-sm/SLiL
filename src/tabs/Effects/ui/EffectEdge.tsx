@@ -1,4 +1,5 @@
 import { BaseEdge, getBezierPath } from '@xyflow/react';
+import { useEffectNodes } from '../../../context/EffectNodesContext/useEffectNodes'
 
 interface EffectEdgeProps {
   id: string;
@@ -9,6 +10,7 @@ interface EffectEdgeProps {
 }
 
 export default function EffectEdge({ id, sourceX, sourceY, targetX, targetY }: EffectEdgeProps) {
+  const { removeEdge } = useEffectNodes();
   const [edgePath] = getBezierPath({
     sourceX,
     sourceY,
@@ -18,7 +20,7 @@ export default function EffectEdge({ id, sourceX, sourceY, targetX, targetY }: E
 
   return (
     <>
-      <BaseEdge id={id} path={edgePath} />
+      <BaseEdge id={id} path={edgePath} onDoubleClick={() => removeEdge(id)} />
     </>
   );
 }

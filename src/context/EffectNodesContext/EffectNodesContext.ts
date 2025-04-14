@@ -9,7 +9,7 @@ export interface EffectNodesContextType {
   addNode: () => void;
   addEdge: (params: Edge | Connection) => void;
   removeNode: (nodeId: string) => void;
-  removeEdge: (sourceId: string, targetId: string) => void;
+  removeEdge: (edgeId: string) => void;
 }
 
 export const EffectNodesContext = createContext<EffectNodesContextType | undefined>(undefined);

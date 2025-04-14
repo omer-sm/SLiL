@@ -84,6 +84,10 @@ export default class EffectChain extends ToneAudioNode<ToneAudioNodeOptions> {
     fromEffect.node.disconnect(toEffect.node);
   }
 
+  static parseId(id: string): SynthEffect['id'] {
+    return id === 'input' || id === 'output' ? id : +id;
+  }
+
   dispose(): this {
     this.input.dispose();
     this.output.dispose();

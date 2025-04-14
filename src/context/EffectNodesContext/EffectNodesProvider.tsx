@@ -1,23 +1,33 @@
 import { useCallback, useState } from 'react';
 import { addEdge as addEdgeToState, Connection, Edge, Node } from '@xyflow/react';
 import { EffectNodesContext } from './EffectNodesContext';
-import { initialEdges, initialNodes } from '../../tabs/Effects/utils/nodesDriver';
+import { initialEdges, initialNodes } from './initialValues';
+import { effectChain } from '../../driver/driver';
+import { Reverb } from 'tone';
+import EffectChain from '../../driver/EffectChain';
 
 export const EffectNodesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
   const [edges, setEdges] = useState<Edge[]>(initialEdges);
 
   const addNode = useCallback(() => {
+    // TODO: Add an option to select the effect type
+    const effectId = effectChain.addEffect(new Reverb(1.5));
+
     const newNode = {
-      id: `${nodes.length}`,
+      id: `${effectId}`,
       position: { x: Math.random() * 100, y: Math.random() * 100 },
-      data: { label: `Node ${nodes.length}` },
+      data: { label: `Reverb (${effectId})` },
     };
     setNodes((prev) => [...prev, newNode]);
-  }, [nodes, setNodes]);
+  }, [setNodes]);
 
   const addEdge = useCallback(
     (params: Edge | Connection) => {
+      effectChain.addConnection(
+        EffectChain.parseId(params.source),
+        EffectChain.parseId(params.target)
+      );
       setEdges((eds) => addEdgeToState(params, eds));
     },
     [setEdges]
@@ -25,18 +35,25 @@ export const EffectNodesProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
   const removeNode = useCallback(
     (nodeId: string) => {
+      effectChain.removeEffect(EffectChain.parseId(nodeId));
       setNodes((prev) => prev.filter((node) => node.id !== nodeId));
+      setEdges((prev) =>
+        prev.filter((edge) => edge.source !== nodeId && edge.target !== nodeId)
+      );
     },
     [setNodes]
   );
 
   const removeEdge = useCallback(
-    (sourceId: string, targetId: string) => {
-      setEdges((prev) =>
-        prev.filter((edge) => edge.source !== sourceId || edge.target !== targetId)
-      );
+    (edgeId: string) => {
+      const edgeIndex = edges.findIndex((edge) => edge.id === edgeId);
+      const { source, target } = edges[edgeIndex];
+
+      effectChain.removeConnection(EffectChain.parseId(source), EffectChain.parseId(target));
+
+      setEdges((prev) => prev.filter((_, index) => index !== edgeIndex));
     },
-    [setEdges]
+    [edges, setEdges]
   );
 
   return (

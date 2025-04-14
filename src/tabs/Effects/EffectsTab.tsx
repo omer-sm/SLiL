@@ -3,8 +3,11 @@ import {
   applyNodeChanges,
   Background,
   BackgroundVariant,
+  Connection,
+  ConnectionState,
   Edge,
   EdgeChange,
+  HandleType,
   Node,
   NodeChange,
   ReactFlow,
@@ -19,7 +22,7 @@ import EffectEdge from './ui/EffectEdge';
 import { useEffectNodes } from '../../context/EffectNodesContext/useEffectNodes';
 
 export default function EffectsTab() {
-  const { nodes, setNodes, edges, setEdges, addNode, addEdge } = useEffectNodes();
+  const { nodes, setNodes, edges, setEdges, addNode, addEdge, removeEdge } = useEffectNodes();
   const { themeMode } = useSnapshot(themeState);
 
   const onNodesChange = useCallback(
@@ -33,6 +36,28 @@ export default function EffectsTab() {
       setEdges((currEdges) => applyEdgeChanges(changes, currEdges));
     },
     [setEdges]
+  );
+
+  const onReconnect = useCallback(
+    (oldEdge: Edge, newEdge: Connection) => {
+      addEdge(newEdge);
+      removeEdge(oldEdge.id);
+    },
+    [addEdge, removeEdge]
+  );
+
+  const onReconnectEnd = useCallback(
+    (
+      _event: MouseEvent | TouchEvent,
+      edge: Edge,
+      _handleType: HandleType,
+      connectionState: ConnectionState
+    ) => {
+      if (!connectionState.isValid) {
+        removeEdge(edge.id);
+      }
+    },
+    [removeEdge]
   );
 
   return (
@@ -51,6 +76,9 @@ export default function EffectsTab() {
         onEdgesChange={onEdgesChange}
         edgeTypes={{ default: EffectEdge }}
         proOptions={{ hideAttribution: true }}
+        onReconnect={onReconnect}
+        //@ts-expect-error onReconnectEnd is missing the fourth parameter in the typedef
+        onReconnectEnd={onReconnectEnd}
       >
         <Background variant={BackgroundVariant.Dots} gap={12} size={0.75} />
       </ReactFlow>

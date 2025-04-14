@@ -1,4 +1,4 @@
-import { effectChain } from '../../../driver/driver';
+import { effectChain } from '../../driver/driver';
 
 export const initialNodes = [...effectChain.effects.values()].map((effect, index) => ({
   id: `${effect.id}`,
