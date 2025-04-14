@@ -1,5 +1,5 @@
 import { BaseEdge, getBezierPath } from '@xyflow/react';
- 
+
 interface EffectEdgeProps {
   id: string;
   sourceX: number;
@@ -15,7 +15,7 @@ export default function EffectEdge({ id, sourceX, sourceY, targetX, targetY }: E
     targetX,
     targetY,
   });
- 
+
   return (
     <>
       <BaseEdge id={id} path={edgePath} />
