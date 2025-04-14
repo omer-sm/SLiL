@@ -1,9 +1,12 @@
 import {
-  addEdge,
   applyEdgeChanges,
   applyNodeChanges,
   Background,
   BackgroundVariant,
+  Edge,
+  EdgeChange,
+  Node,
+  NodeChange,
   ReactFlow,
 } from '@xyflow/react';
 
@@ -16,34 +19,17 @@ import EffectEdge from './ui/EffectEdge';
 import { useEffectNodes } from '../../context/EffectNodesContext/useEffectNodes';
 
 export default function EffectsTab() {
-  const { nodes, setNodes, edges, setEdges } = useEffectNodes();
+  const { nodes, setNodes, edges, setEdges, addNode, addEdge } = useEffectNodes();
   const { themeMode } = useSnapshot(themeState);
 
-  const addNode = () => {
-    const newNode = {
-      id: `${nodes.length}`,
-      position: { x: Math.random() * 100, y: Math.random() * 100 },
-      data: { label: `Node ${nodes.length}` },
-    };
-    setNodes((prev) => [...prev, newNode]);
-  };
-
   const onNodesChange = useCallback(
-    (changes) => setNodes((currNodes) => applyNodeChanges(changes, currNodes)),
+    (changes: NodeChange<Node>[]) =>
+      setNodes((currNodes) => applyNodeChanges(changes, currNodes)),
     [setNodes]
   );
 
-  const onConnect = useCallback(
-    (params) => {
-      console.log('connect', params);
-      setEdges((eds) => addEdge(params, eds));
-    },
-    [setEdges]
-  );
-
   const onEdgesChange = useCallback(
-    (changes) => {
-      console.log('edge change', changes);
+    (changes: EdgeChange<Edge>[]) => {
       setEdges((currEdges) => applyEdgeChanges(changes, currEdges));
     },
     [setEdges]
@@ -59,7 +45,7 @@ export default function EffectsTab() {
       <ReactFlow
         nodes={nodes}
         edges={edges}
-        onConnect={onConnect}
+        onConnect={addEdge}
         colorMode={themeMode}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
