@@ -1,9 +1,11 @@
 import { Handle, Node, NodeProps, Position } from '@xyflow/react';
 import { SynthEffect } from '../../driver/EffectChain';
-import { Card, Flex } from 'antd';
+import { Button, Card, Flex } from 'antd';
 import { effectOptions } from './utils/effectOptions';
 import { effectChain } from '../../driver/driver';
 import { ToneWithContextOptions } from 'tone/build/esm/core/context/ToneWithContext';
+import { useEffectNodes } from '../../context/EffectNodesContext/useEffectNodes';
+import CloseIcon from '@mui/icons-material/Close';
 
 type EffectNodeProps = {
   node: SynthEffect['node'];
@@ -13,10 +15,32 @@ type EffectNodeProps = {
 export default function EffectNode({
   data: { node, effectId },
 }: NodeProps<Node<EffectNodeProps, 'effect'>>) {
+  const { removeNode } = useEffectNodes();
+
   return (
     <>
       <Handle type="target" position={Position.Top} />
-      <Card title={`${node.name} (${effectId})`}>
+      <Card
+        title={`${node.name} (${effectId})`}
+        extra={
+          effectId !== 'input' &&
+          effectId !== 'output' && (
+            <Button
+              onClick={() => removeNode(`${effectId}`)}
+              variant="outlined"
+              color="danger"
+              size="small"
+              shape="circle"
+              style={{ opacity: 0.25 }}
+              onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
+              onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.25')}
+            >
+              <CloseIcon fontSize="small" />
+            </Button>
+          )
+        }
+        style={{ minWidth: 200 }}
+      >
         {effectOptions[node.name] &&
           effectOptions[node.name].map((option) => (
             <Flex vertical key={option.name}>
