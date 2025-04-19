@@ -21,6 +21,7 @@ import { Card, Flex } from 'antd';
 import { useEffectNodes } from '../../context/EffectNodesContext/useEffectNodes';
 import { effectButtons } from './utils/effects';
 import AddEffectButton from './AddEffectButton';
+import { nodeTypes } from './utils/nodeTypes'
 
 export default function EffectsTab() {
   const { nodes, setNodes, edges, setEdges, addNode, addEdge, removeEdge } = useEffectNodes();
@@ -77,6 +78,7 @@ export default function EffectsTab() {
       <ReactFlow
         nodes={nodes}
         edges={edges}
+        nodeTypes={nodeTypes}
         onConnect={addEdge}
         colorMode={themeMode}
         onNodesChange={onNodesChange}

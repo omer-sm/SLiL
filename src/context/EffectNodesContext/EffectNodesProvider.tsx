@@ -16,7 +16,8 @@ export const EffectNodesProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const newNode = {
       id: `${effectId}`,
       position: { x: Math.random() * 400, y: Math.random() * 400 },
-      data: { label: `${effect.name} (${effectId})` },
+      data: { node: effect, effectId },
+      type: 'effectNode',
     };
     setNodes((prev) => [...prev, newNode]);
   }, [setNodes]);
