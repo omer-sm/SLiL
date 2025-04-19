@@ -19,7 +19,7 @@ import { useSnapshot } from 'valtio';
 import { useCallback } from 'react';
 import { Card, Flex } from 'antd';
 import { useEffectNodes } from '../../context/EffectNodesContext/useEffectNodes';
-import { effectButtons } from './utils/effects';
+import { effectButtons } from './utils/effectButtons';
 import AddEffectButton from './AddEffectButton';
 import { nodeTypes } from './utils/nodeTypes'
 

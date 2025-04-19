@@ -1,6 +1,6 @@
 import { ButtonColorType } from 'antd/es/button';
 import { BitCrusher, Distortion, Filter, Reverb } from 'tone';
-import { SynthEffect } from '../../../driver/EffectChain'
+import { SynthEffect } from '../../../driver/EffectChain';
 
 interface EffectButtonType {
   name: string;

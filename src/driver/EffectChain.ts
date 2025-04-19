@@ -28,6 +28,23 @@ export default class EffectChain extends ToneAudioNode<ToneAudioNodeOptions> {
     this.addConnection('input', 'output');
   }
 
+  changeEffectOptions(
+    id: SynthEffect['id'],
+    options: Partial<EffectOptions | ToneAudioNodeOptions>
+  ) {
+    const effect = this.effects.get(id);
+
+    if (!effect) {
+      throw new Error(`Invalid effect id: ${id}`);
+    }
+
+    if (effect.node instanceof Effect) {
+      effect.node.set(options as EffectOptions);
+    } else {
+      effect.node.set(options as ToneAudioNodeOptions);
+    }
+  }
+  
   addEffect(node: SynthEffect['node'], id?: SynthEffect['id']): SynthEffect['id'] {
     id = id ?? this.effectIdCounter++;
     this.effects.set(id, { id, node, inputs: [], outputs: [] });
