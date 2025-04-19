@@ -21,10 +21,11 @@ import { Card, Flex } from 'antd';
 import { useEffectNodes } from '../../context/EffectNodesContext/useEffectNodes';
 import { effectButtons } from './utils/effectButtons';
 import AddEffectButton from './AddEffectButton';
-import { nodeTypes } from './utils/nodeTypes'
+import { nodeTypes } from './utils/nodeTypes';
 
 export default function EffectsTab() {
-  const { nodes, setNodes, edges, setEdges, addNode, addEdge, removeEdge } = useEffectNodes();
+  const { nodes, setNodes, edges, setEdges, addNode, addEdge, removeEdge } =
+    useEffectNodes();
   const { themeMode } = useSnapshot(themeState);
 
   const onNodesChange = useCallback(
@@ -63,7 +64,7 @@ export default function EffectsTab() {
   );
 
   return (
-    <div style={{ height: '100%', width: '100%' }}>
+    <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }}>
       <Card>
         <Flex justify="center">
           {effectButtons.map(({ name, color, createEffect }, index) => (
@@ -75,21 +76,22 @@ export default function EffectsTab() {
           ))}
         </Flex>
       </Card>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        nodeTypes={nodeTypes}
-        onConnect={addEdge}
-        colorMode={themeMode}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        proOptions={{ hideAttribution: true }}
-        onReconnect={onReconnect}
-        //@ts-expect-error onReconnectEnd is missing the fourth parameter in the typedef
-        onReconnectEnd={onReconnectEnd}
-      >
-        <Background variant={BackgroundVariant.Dots} gap={12} size={0.75} />
-      </ReactFlow>
+        <ReactFlow
+          fitView
+          nodes={nodes}
+          edges={edges}
+          nodeTypes={nodeTypes}
+          onConnect={addEdge}
+          colorMode={themeMode}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          proOptions={{ hideAttribution: true }}
+          onReconnect={onReconnect}
+          //@ts-expect-error onReconnectEnd is missing the fourth parameter in the typedef
+          onReconnectEnd={onReconnectEnd}
+        >
+          <Background variant={BackgroundVariant.Dots} gap={12} size={0.75} />
+        </ReactFlow>
     </div>
   );
 }
