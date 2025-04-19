@@ -64,7 +64,7 @@ export default function EffectsTab() {
   return (
     <div style={{ height: '100%', width: '100%' }}>
       <Card>
-        <Flex justify='center'>
+        <Flex justify="center">
           {effectButtons.map(({ name, color, createEffect }, index) => (
             <AddEffectButton
               {...{ name, color }}
