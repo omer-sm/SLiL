@@ -19,8 +19,8 @@ export default class EffectChain extends ToneAudioNode<ToneAudioNodeOptions> {
   constructor(options: ToneAudioNodeOptions) {
     super(options);
     this.effectIdCounter = 0;
-    this.input = new Gain({ context: this.context });
-    this.output = new Gain({ context: this.context });
+    this.input = new Gain(0, 'decibels');
+    this.output = new Gain(0, 'decibels');
     this.effects = new Map<SynthEffect['id'], SynthEffect>();
     this.addEffect(this.input, 'input');
     this.addEffect(this.output, 'output');

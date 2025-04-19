@@ -165,4 +165,19 @@ export const effectOptions: Record<string, EffectOption[]> = {
       ),
     },
   ],
+  Gain: [
+    {
+      name: 'gain',
+      displayName: 'Gain (dB)',
+      element: (props, changeHandler) => (
+        <Slider
+          min={-24}
+          max={12}
+          step={0.1}
+          onChangeComplete={changeHandler}
+          {...props}
+        />
+      ),
+    },
+  ],
 };
