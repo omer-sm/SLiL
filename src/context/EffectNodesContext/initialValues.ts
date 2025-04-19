@@ -2,7 +2,7 @@ import { effectChain } from '../../driver/driver';
 
 export const initialNodes = [...effectChain.effects.values()].map((effect, index) => ({
   id: `${effect.id}`,
-  position: { x: 0, y: index * 100 },
+  position: { x: 0, y: index * 300 },
   data: { effectId: effect.id, node: effect.node },
   type: 'effectNode'
 }));
