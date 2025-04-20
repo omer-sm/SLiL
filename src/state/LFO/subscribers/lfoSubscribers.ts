@@ -35,8 +35,9 @@ export default () => {
     lfos[1].connections.forEach(({ targetEffectId, param }) => {
       lfos[1].removeConnection(targetEffectId, param);
     });
-    newConnections.forEach(({ effectId, param }) => {
-      lfos[1].addConnection(effectId, param);
+
+    newConnections.forEach(({ effectId, param, ...options }) => {
+      lfos[1].addConnection(effectId, param, options);
     });
   });
 
@@ -53,8 +54,9 @@ export default () => {
     lfos[2].connections.forEach(({ targetEffectId, param }) => {
       lfos[2].removeConnection(targetEffectId, param);
     });
-    newConnections.forEach(({ effectId, param }) => {
-      lfos[2].addConnection(effectId, param);
+
+    newConnections.forEach(({ effectId, param, ...options }) => {
+      lfos[2].addConnection(effectId, param, options);
     });
   });
 };

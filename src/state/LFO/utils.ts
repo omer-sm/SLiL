@@ -4,17 +4,18 @@ import { LFOConnection, lfoState } from './lfoState';
 export const updateLfoConnection = (
   newParams: RecursivePartial<LFOConnection>,
   lfoKey: keyof typeof lfoState,
-  connectionIndex: number,
+  connectionIndex: number
 ) => {
   const lfo = lfoState[lfoKey];
-    if (connectionIndex !== -1) {
-        lfo.connections[connectionIndex] = {
-        ...lfo.connections[connectionIndex],
-        ...newParams,
-        };
+  
+  if (connectionIndex !== -1) {
+    lfo.connections[connectionIndex] = {
+      ...lfo.connections[connectionIndex],
+      ...newParams,
+    };
 
-        lfo.connections = [...lfo.connections];
-    } else {
-        console.error('Connection not found');
-    }
+    lfo.connections = [...lfo.connections];
+  } else {
+    console.error('Connection not found');
+  }
 };

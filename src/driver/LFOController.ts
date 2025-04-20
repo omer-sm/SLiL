@@ -45,8 +45,13 @@ export default class LFOController {
     );
 
     if (targetEffect) {
-      //@ts-expect-error param is string
-      lfo.connect(targetEffect.node[param]);
+      try {
+        //@ts-expect-error param is string
+        lfo.connect(targetEffect.node[param]);
+      } catch (error) {
+        console.error(`Error connecting LFO to ${targetEffectId} on param ${param}:`, error);
+      }
+      
       lfo.start();
       this.connections.push({ targetEffectId, param, lfo });
     }
