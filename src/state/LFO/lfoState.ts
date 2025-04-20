@@ -3,7 +3,7 @@ import { Frequency, NormalRange } from 'tone/build/esm/core/type/Units';
 import { ToneOscillatorType } from 'tone'
 import subscribeLfo from './subscribers/lfoSubscribers';
 
-interface LFOConnection {
+export interface LFOConnection {
   effectId: number | 'input' | 'output';
   param: string;
   amplitude: NormalRange;

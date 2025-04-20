@@ -1,6 +1,7 @@
-import { Flex, List, Slider, Select, Form } from 'antd';
+import { Flex, List, Slider, Select, Form, Card, Input } from 'antd';
 import { useSnapshot } from 'valtio';
 import { lfoState } from '../../../state/LFO/lfoState';
+import { updateLfoConnection } from '../../../state/LFO/utils';
 
 interface SingleLfoControllerProps {
   lfoKey: keyof typeof lfoState;
@@ -10,8 +11,8 @@ export default function SingleLfoController({ lfoKey }: SingleLfoControllerProps
   const lfoSnap = useSnapshot(lfoState[lfoKey]);
 
   return (
-    <Flex justify='space-between' style={{ width: '100%' }}>
-      <Flex vertical style={{ width: '47%' }}>
+    <Flex justify="space-between" style={{ width: '100%' }}>
+      <Flex vertical style={{ width: '29%' }}>
         <div style={{ marginBottom: '1rem' }}>
           <Form.Item label="Frequency">
             <Slider
@@ -40,10 +41,48 @@ export default function SingleLfoController({ lfoKey }: SingleLfoControllerProps
         header="Connections"
         bordered
         dataSource={[...lfoSnap.connections]}
-        style={{ height: '12rem', overflowY: 'auto', width: '47%' }}
-        renderItem={(connection) => (
+        style={{ height: '12rem', overflowY: 'auto', width: '69%' }}
+        renderItem={(connection, index) => (
           <List.Item>
-            Effect ID: {connection.effectId}, Param: {connection.param}
+            <Card style={{ width: '100%' }}>
+              <Flex align="center" justify="start" gap="1rem" wrap="wrap">
+                <div>
+                  Effect #{connection.effectId} ({connection.param})
+                </div>
+                <Form.Item label="min" style={{ margin: 0 }}>
+                  <Input
+                    type="number"
+                    value={connection.min}
+                    style={{ width: '8rem' }}
+                    onChange={(event) => {
+                      updateLfoConnection({ min: +event.target.value }, lfoKey, index);
+                    }}
+                  />
+                </Form.Item>
+                <Form.Item label="max" style={{ margin: 0 }}>
+                  <Input
+                    type="number"
+                    value={connection.max}
+                    style={{ width: '8rem' }}
+                    onChange={(event) => {
+                      updateLfoConnection({ max: +event.target.value }, lfoKey, index);
+                    }}
+                  />
+                </Form.Item>
+                <Form.Item label="amp." style={{ margin: 0 }}>
+                  <Input
+                    type="number"
+                    min={0}
+                    max={1}
+                    value={connection.amplitude}
+                    style={{ width: '8rem' }}
+                    onChange={(event) => {
+                      updateLfoConnection({ amplitude: +event.target.value }, lfoKey, index);
+                    }}
+                  />
+                </Form.Item>
+              </Flex>
+            </Card>
           </List.Item>
         )}
       />

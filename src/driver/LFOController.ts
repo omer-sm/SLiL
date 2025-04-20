@@ -72,6 +72,20 @@ export default class LFOController {
     );
   }
 
+  updateConnection(
+    targetEffectId: SynthEffect['id'],
+    param: string,
+    newParams: RecursivePartial<LFOOptions>
+  ): void {
+    const connection = this.getConnection(targetEffectId, param);
+
+    if (connection) {
+      connection.lfo.set(newParams);
+    } else {
+      console.error(`Connection not found for effectId: ${targetEffectId}, param: ${param}`);
+    }
+  }
+
   private updateConnections(): void {
     this.connections.forEach((connection) => {
       connection.lfo.frequency.value = this.frequency;
