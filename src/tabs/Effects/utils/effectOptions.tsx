@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 interface EffectOption {
   name: string;
   displayName: string;
+  isModulatable?: boolean;
   element: (
     props: Record<string, unknown>,
     changeHandler: (newValue: string | number) => void
@@ -13,6 +14,7 @@ interface EffectOption {
 const wetInput: EffectOption = {
   name: 'wet',
   displayName: 'Wet',
+  isModulatable: true,
   element: (props, changeHandler) => (
     <Slider min={0} max={1} step={0.01} onChangeComplete={changeHandler} {...props} />
   ),
@@ -116,6 +118,7 @@ export const effectOptions: Record<string, EffectOption[]> = {
     {
       name: 'frequency',
       displayName: 'Frequency (Hz)',
+      isModulatable: true,
       element: (props, changeHandler) => (
         <Slider
           min={20}
@@ -129,6 +132,7 @@ export const effectOptions: Record<string, EffectOption[]> = {
     {
       name: 'Q',
       displayName: 'Resonance (Q)',
+      isModulatable: true,
       element: (props, changeHandler) => (
         <Slider
           min={0.01}
@@ -160,6 +164,7 @@ export const effectOptions: Record<string, EffectOption[]> = {
     {
       name: 'threshold',
       displayName: 'Threshold (dB)',
+      isModulatable: true,
       element: (props, changeHandler) => (
         <Slider min={-100} max={0} step={1} onChangeComplete={changeHandler} {...props} />
       ),
@@ -169,6 +174,7 @@ export const effectOptions: Record<string, EffectOption[]> = {
     {
       name: 'gain',
       displayName: 'Gain (dB)',
+      isModulatable: true,
       element: (props, changeHandler) => (
         <Slider
           min={-24}
