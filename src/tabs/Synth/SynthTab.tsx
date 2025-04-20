@@ -2,7 +2,7 @@ import { Card, Col, Flex, Row } from 'antd';
 import SubsynthController from './SubsynthController';
 import { synthState } from '../../state/Synth/synthState';
 import EnvelopeController from './EnvelopeController';
-import LfoController from './LFOController'
+import MasterLFOController from './LFO/MasterLFOController'
 
 export default function SynthTab() {
   return (
@@ -31,9 +31,9 @@ export default function SynthTab() {
           </Card>
         </Col>
         <Col span={19}>
-          <Card title="LFO" style={{ height: '100%' }}>
-            <LfoController />
-          </Card>
+          <div style={{ height: '100%' }}>
+            <MasterLFOController />
+          </div>
         </Col>
       </Row>
     </>
