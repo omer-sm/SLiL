@@ -1,7 +1,8 @@
-import { Flex, List, Slider, Select, Form, Card, Input } from 'antd';
+import { Flex, List, Slider, Select, Form, Card, Input, Button } from 'antd';
 import { useSnapshot } from 'valtio';
 import { lfoState } from '../../../state/LFO/lfoState';
 import { updateLfoConnection } from '../../../state/LFO/utils';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface SingleLfoControllerProps {
   lfoKey: keyof typeof lfoState;
@@ -77,10 +78,29 @@ export default function SingleLfoController({ lfoKey }: SingleLfoControllerProps
                     value={connection.amplitude}
                     style={{ width: '8rem' }}
                     onChange={(event) => {
-                      updateLfoConnection({ amplitude: +event.target.value }, lfoKey, index);
+                      updateLfoConnection(
+                        { amplitude: +event.target.value },
+                        lfoKey,
+                        index
+                      );
                     }}
                   />
                 </Form.Item>
+                <Button
+                  onClick={() => {
+                    lfoState[lfoKey].connections.splice(index, 1);
+                    lfoState[lfoKey].connections = [...lfoState[lfoKey].connections];
+                  }}
+                  variant="outlined"
+                  color="danger"
+                  size="small"
+                  shape="circle"
+                  style={{ opacity: 0.25 }}
+                  onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
+                  onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.25')}
+                >
+                  <CloseIcon fontSize="small" />
+                </Button>
               </Flex>
             </Card>
           </List.Item>
