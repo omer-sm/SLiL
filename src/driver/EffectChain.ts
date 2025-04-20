@@ -72,6 +72,7 @@ export default class EffectChain extends ToneAudioNode<ToneAudioNodeOptions> {
       }
     });
 
+    this.effects.get(id)?.node.dispose();
     this.effects.delete(id);
   }
 
