@@ -27,20 +27,20 @@ interface LFOStateType {
 export const lfoState: LFOStateType = proxy({
   lfo1: {
     shape: 'sine',
-    frequency: 1,
-    isSyncedToBPM: false,
+    frequency: '1m',
+    isSyncedToBPM: true,
     connections: [],
   },
   lfo2: {
     shape: 'sine',
-    frequency: 1,
-    isSyncedToBPM: false,
+    frequency: '1m',
+    isSyncedToBPM: true,
     connections: [],
   },
   lfo3: {
     shape: 'sine',
-    frequency: 1,
-    isSyncedToBPM: false,
+    frequency: '1m',
+    isSyncedToBPM: true,
     connections: [],
   },
 });

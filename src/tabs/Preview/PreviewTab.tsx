@@ -1,6 +1,6 @@
 import { Button, List } from 'antd';
 import { useState } from 'react';
-import driverSynth from '../../driver/driver';
+import driverSynth, { lfos } from '../../driver/driver';
 import { Time, getTransport } from 'tone';
 import { Melody } from './utils/melodyTypes';
 import { melodies } from './utils/melodies';
@@ -13,6 +13,7 @@ export default function PreviewTab() {
     setIsPlaying(true);
 
     getTransport().bpm.value = melody.bpm;
+    lfos.forEach((lfo) => lfo.restartLFOs());
 
     for (const note of melody.notes) {
       setTimeout(() => {

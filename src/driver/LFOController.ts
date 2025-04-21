@@ -32,6 +32,12 @@ export default class LFOController {
     this.updateConnections();
   }
 
+  restartLFOs(): void {
+    this.connections.forEach((connection) => {
+      connection.lfo.stop().start();
+    });
+  }
+
   addConnection(
     targetEffectId: SynthEffect['id'],
     param: string,
