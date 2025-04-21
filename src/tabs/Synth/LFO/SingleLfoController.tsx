@@ -1,9 +1,10 @@
-import { Flex, List, Slider, Select, Form, Card, Input, Button } from 'antd';
+import { Flex, List, Slider, Select, Form, Card, Input, Button, Switch } from 'antd';
 import { useSnapshot } from 'valtio';
 import { lfoState } from '../../../state/LFO/lfoState';
 import { updateLfoConnection } from '../../../state/LFO/utils';
 import CloseIcon from '@mui/icons-material/Close';
 import { modulatablesState } from '../../../state/Modulatables/modulatablesState';
+import { Frequency } from 'tone'
 
 interface SingleLfoControllerProps {
   lfoKey: keyof typeof lfoState;
@@ -17,10 +18,12 @@ export default function SingleLfoController({ lfoKey }: SingleLfoControllerProps
       <Flex vertical style={{ width: '29%' }}>
         <div style={{ marginBottom: '1rem' }}>
           <Form.Item label="Sync to BPM">
-            <Input
-              type="checkbox"
+            <Switch
               checked={lfoSnap.isSyncedToBPM}
-              onChange={(e) => (lfoState[lfoKey].isSyncedToBPM = e.target.checked)}
+              onChange={(checked) => {
+                lfoState[lfoKey].isSyncedToBPM = checked;
+                lfoState[lfoKey].frequency = checked ? '1m' : Frequency(lfoState[lfoKey].frequency).toFrequency();
+              }}
             />
           </Form.Item>
           <Form.Item label="Frequency">
