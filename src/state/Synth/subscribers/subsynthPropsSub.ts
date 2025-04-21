@@ -4,35 +4,35 @@ import { synthState } from '../synthState';
 
 export default () => {
   subscribeKey(synthState.synth1Opts, 'waveform', (newWaveform) => {
-    driverSynth.synth1.set({
+    driverSynth.synth1.forEach((voice) => voice.set({
       oscillator: {
         type: newWaveform,
       },
-    });
+    }));
   });
 
   subscribeKey(synthState.synth2Opts, 'waveform', (newWaveform) => {
-    driverSynth.synth2.set({
+    driverSynth.synth2.forEach((voice) => voice.set({
       oscillator: {
         type: newWaveform,
       },
-    });
+    }));
   });
 
   subscribeKey(synthState.synth1Opts, 'volume', (newVolume) => {
-    driverSynth.synth1.set({
+    driverSynth.synth1.forEach((voice) => voice.set({
       oscillator: {
         volume: newVolume,
       },
-    });
+    }));
   });
 
   subscribeKey(synthState.synth2Opts, 'volume', (newVolume) => {
-    driverSynth.synth2.set({
+    driverSynth.synth2.forEach((voice) => voice.set({
       oscillator: {
         volume: newVolume,
       },
-    });
+    }));
   });
 
   subscribeKey(synthState.synth1Opts, 'semitoneShift', (newShift) => {
