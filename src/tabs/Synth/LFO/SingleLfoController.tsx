@@ -16,14 +16,32 @@ export default function SingleLfoController({ lfoKey }: SingleLfoControllerProps
     <Flex justify="space-between" style={{ width: '100%' }}>
       <Flex vertical style={{ width: '29%' }}>
         <div style={{ marginBottom: '1rem' }}>
-          <Form.Item label="Frequency">
-            <Slider
-              min={0.1}
-              max={20}
-              step={0.1}
-              value={+lfoSnap.frequency}
-              onChange={(value) => (lfoState[lfoKey].frequency = value)}
+          <Form.Item label="Sync to BPM">
+            <Input
+              type="checkbox"
+              checked={lfoSnap.isSyncedToBPM}
+              onChange={(e) => lfoState[lfoKey].isSyncedToBPM = (e.target.checked)}
             />
+          </Form.Item>
+          <Form.Item label="Frequency">
+            {lfoSnap.isSyncedToBPM ? (
+              <Select
+                value={lfoSnap.frequency}
+                onChange={(value) => (lfoState[lfoKey].frequency = value)}
+                options={['1m', '2n', '4n', '8n', '16n'].map((value) => ({
+                  value,
+                  label: value,
+                }))}
+              />
+            ) : (
+              <Slider
+                min={0.1}
+                max={20}
+                step={0.1}
+                value={+lfoSnap.frequency}
+                onChange={(value) => (lfoState[lfoKey].frequency = value)}
+              />
+            )}
           </Form.Item>
         </div>
         <div>

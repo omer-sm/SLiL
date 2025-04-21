@@ -14,6 +14,7 @@ export interface LFOConnection {
 interface LFOControllerState {
   shape: ToneOscillatorType;
   frequency: Frequency;
+  isSyncedToBPM: boolean;
   connections: LFOConnection[];
 }
 
@@ -27,16 +28,19 @@ export const lfoState: LFOStateType = proxy({
   lfo1: {
     shape: 'sine',
     frequency: 1,
+    isSyncedToBPM: false,
     connections: [],
   },
   lfo2: {
     shape: 'sine',
     frequency: 1,
+    isSyncedToBPM: false,
     connections: [],
   },
   lfo3: {
     shape: 'sine',
     frequency: 1,
+    isSyncedToBPM: false,
     connections: [],
   },
 });
