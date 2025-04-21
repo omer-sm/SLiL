@@ -3,7 +3,7 @@ import { useSnapshot } from 'valtio';
 import { lfoState } from '../../../state/LFO/lfoState';
 import { updateLfoConnection } from '../../../state/LFO/utils';
 import CloseIcon from '@mui/icons-material/Close';
-import { modulatablesState } from '../../../state/Modulatables/modulatablesState'
+import { modulatablesState } from '../../../state/Modulatables/modulatablesState';
 
 interface SingleLfoControllerProps {
   lfoKey: keyof typeof lfoState;
@@ -20,7 +20,7 @@ export default function SingleLfoController({ lfoKey }: SingleLfoControllerProps
             <Input
               type="checkbox"
               checked={lfoSnap.isSyncedToBPM}
-              onChange={(e) => lfoState[lfoKey].isSyncedToBPM = (e.target.checked)}
+              onChange={(e) => (lfoState[lfoKey].isSyncedToBPM = e.target.checked)}
             />
           </Form.Item>
           <Form.Item label="Frequency">
@@ -57,75 +57,96 @@ export default function SingleLfoController({ lfoKey }: SingleLfoControllerProps
           </Form.Item>
         </div>
       </Flex>
-      <List
-        header="Connections"
-        bordered
-        dataSource={[...lfoSnap.connections]}
-        style={{ height: '12rem', overflowY: 'auto', width: '69%' }}
-        renderItem={(connection, index) => (
-          <List.Item>
-            <Card style={{ width: '100%' }}>
-              <Flex align="center" justify="start" gap="1rem" wrap="wrap">
-                <div>
-                  Effect #{connection.effectId} ({connection.param})
-                </div>
-                <Form.Item label="min" style={{ margin: 0 }}>
-                  <Input
-                    type="number"
-                    value={connection.min}
-                    style={{ width: '8rem' }}
-                    onChange={(event) => {
-                      updateLfoConnection({ min: +event.target.value }, lfoKey, index);
+      <Card
+        type="inner"
+        size="small"
+        title="Modulations"
+        style={{ width: '69%', height: '12rem' }}
+        styles={{ body: { overflowY: 'hidden' } }}
+      >
+        <List
+          style={{
+            height: '8rem',
+            overflowY: lfoSnap.connections.length > 0 ? 'auto' : 'hidden',
+          }}
+          dataSource={[...lfoSnap.connections]}
+          renderItem={(connection, index) => (
+            <List.Item>
+              <Card style={{ width: '100%' }}>
+                <Flex align="center" justify="space-between">
+                  <Flex align="center" justify="start" gap="1rem" wrap="wrap">
+                    <div>
+                      Effect #{connection.effectId} ({connection.param})
+                    </div>
+                    <Form.Item label="min" style={{ margin: 0 }}>
+                      <Input
+                        type="number"
+                        value={connection.min}
+                        style={{ width: '8rem' }}
+                        onChange={(event) => {
+                          updateLfoConnection(
+                            { min: +event.target.value },
+                            lfoKey,
+                            index
+                          );
+                        }}
+                      />
+                    </Form.Item>
+                    <Form.Item label="max" style={{ margin: 0 }}>
+                      <Input
+                        type="number"
+                        value={connection.max}
+                        style={{ width: '8rem' }}
+                        onChange={(event) => {
+                          updateLfoConnection(
+                            { max: +event.target.value },
+                            lfoKey,
+                            index
+                          );
+                        }}
+                      />
+                    </Form.Item>
+                    <Form.Item label="amp." style={{ margin: 0 }}>
+                      <Input
+                        type="number"
+                        min={0}
+                        max={1}
+                        value={connection.amplitude}
+                        style={{ width: '8rem' }}
+                        onChange={(event) => {
+                          updateLfoConnection(
+                            { amplitude: +event.target.value },
+                            lfoKey,
+                            index
+                          );
+                        }}
+                      />
+                    </Form.Item>
+                  </Flex>
+                  <Button
+                    onClick={() => {
+                      lfoState[lfoKey].connections.splice(index, 1);
+                      lfoState[lfoKey].connections = [...lfoState[lfoKey].connections];
+                      modulatablesState.params[connection.effectId][
+                        connection.param
+                      ].isModulated = false;
                     }}
-                  />
-                </Form.Item>
-                <Form.Item label="max" style={{ margin: 0 }}>
-                  <Input
-                    type="number"
-                    value={connection.max}
-                    style={{ width: '8rem' }}
-                    onChange={(event) => {
-                      updateLfoConnection({ max: +event.target.value }, lfoKey, index);
-                    }}
-                  />
-                </Form.Item>
-                <Form.Item label="amp." style={{ margin: 0 }}>
-                  <Input
-                    type="number"
-                    min={0}
-                    max={1}
-                    value={connection.amplitude}
-                    style={{ width: '8rem' }}
-                    onChange={(event) => {
-                      updateLfoConnection(
-                        { amplitude: +event.target.value },
-                        lfoKey,
-                        index
-                      );
-                    }}
-                  />
-                </Form.Item>
-                <Button
-                  onClick={() => {
-                    lfoState[lfoKey].connections.splice(index, 1);
-                    lfoState[lfoKey].connections = [...lfoState[lfoKey].connections];
-                    modulatablesState.params[connection.effectId][connection.param].isModulated = false;
-                  }}
-                  variant="outlined"
-                  color="danger"
-                  size="small"
-                  shape="circle"
-                  style={{ opacity: 0.25 }}
-                  onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
-                  onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.25')}
-                >
-                  <CloseIcon fontSize="small" />
-                </Button>
-              </Flex>
-            </Card>
-          </List.Item>
-        )}
-      />
+                    variant="outlined"
+                    color="danger"
+                    size="small"
+                    shape="circle"
+                    style={{ opacity: 0.25 }}
+                    onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
+                    onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.25')}
+                  >
+                    <CloseIcon fontSize="small" />
+                  </Button>
+                </Flex>
+              </Card>
+            </List.Item>
+          )}
+        />
+      </Card>
     </Flex>
   );
 }
