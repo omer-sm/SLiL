@@ -44,7 +44,7 @@ export default function MasterLFOController() {
               <SingleLfoController lfoKey={`lfo${item.key}` as keyof typeof lfoState} />
               <Divider />
               <Form layout="inline" style={{}}>
-                <Form.Item label="Effect and Param">
+                <Form.Item label="Parameter">
                   <Select
                     style={{ minWidth: '10rem' }}
                     showSearch
@@ -71,7 +71,7 @@ export default function MasterLFOController() {
                 </Form.Item>
                 <Form.Item>
                   <Button type="primary" onClick={() => addConnection(index)}>
-                    Add Connection
+                    Add Modulation
                   </Button>
                 </Form.Item>
               </Form>
