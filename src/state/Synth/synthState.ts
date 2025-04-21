@@ -9,6 +9,10 @@ export interface subSynthOpts {
   waveform: (typeof waveforms)[number];
   volume: Decibels;
   semitoneShift: number;
+  unisonOpts: {
+    detune: number;
+    voices: number;
+  };
 }
 
 interface SynthStateType {
@@ -22,11 +26,19 @@ export const synthState: SynthStateType = proxy({
     waveform: 'sine',
     volume: -12,
     semitoneShift: 0,
+    unisonOpts: {
+      detune: 0,
+      voices: 1,
+    },
   },
   synth2Opts: {
     waveform: 'sine',
     volume: -12,
     semitoneShift: 0,
+    unisonOpts: {
+      detune: 0,
+      voices: 1,
+    },
   },
   masterEnvelope: {
     attack: 0.001,

@@ -12,7 +12,7 @@ export default function SubsynthController({ subsynth }: SubsynthControllerProps
 
   return (
     <Flex vertical>
-      <Form.Item label="Waveform">
+      <Form.Item label="Waveform" style={{marginBottom: 0}}>
         <Select
           style={{ minWidth: '10rem' }}
           value={subsynthSnap.waveform}
@@ -24,7 +24,7 @@ export default function SubsynthController({ subsynth }: SubsynthControllerProps
         />
       </Form.Item>
 
-      <Form.Item label="volume">
+      <Form.Item label="volume" style={{marginBottom: 0}}>
         <Slider
           value={subsynthSnap.volume}
           onChange={(value) => (subsynth.volume = value)}
@@ -33,12 +33,30 @@ export default function SubsynthController({ subsynth }: SubsynthControllerProps
         />
       </Form.Item>
 
-      <Form.Item label="shift">
+      <Form.Item label="shift" style={{marginBottom: 0}}>
         <Slider
           value={subsynthSnap.semitoneShift}
           onChange={(value) => (subsynth.semitoneShift = value)}
           min={-36}
           max={36}
+        />
+      </Form.Item>
+
+      <Form.Item label="Unison Voices" style={{marginBottom: 0}}>
+        <Slider
+          value={subsynthSnap.unisonOpts.voices}
+          onChange={(value) => (subsynth.unisonOpts.voices = value)}
+          min={1}
+          max={16}
+        />
+      </Form.Item>
+
+      <Form.Item label="Unison Detune" style={{marginBottom: 0}}>
+        <Slider
+          value={subsynthSnap.unisonOpts.detune}
+          onChange={(value) => (subsynth.unisonOpts.detune = value)}
+          min={0}
+          max={240}
         />
       </Form.Item>
     </Flex>
