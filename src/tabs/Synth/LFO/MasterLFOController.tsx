@@ -3,6 +3,8 @@ import { Button, Card, Divider, Flex, Form, Input, Tabs } from 'antd';
 import { useState } from 'react';
 import { isNumber } from 'tone';
 import SingleLfoController from './SingleLfoController';
+import { modulatablesState } from '../../../state/Modulatables/modulatablesState';
+import EffectChain from '../../../driver/EffectChain';
 
 export default function MasterLFOController() {
   const [currentLfo, setCurrentLfo] = useState<1 | 2 | 3>(1);
@@ -19,9 +21,11 @@ export default function MasterLFOController() {
       const lfoKey = `lfo${lfoIndex + 1}` as keyof typeof lfoState;
       lfoState[lfoKey].connections = [
         ...lfoState[lfoKey].connections,
-        { effectId: +effectId, param, amplitude: 1, min: 0, max: 1 },
+        { effectId: EffectChain.parseId(effectId), param, amplitude: 1, min: 0, max: 1 },
       ];
       setNewConnection({ effectId: '', param: '' });
+
+      modulatablesState.params[EffectChain.parseId(effectId)][param].isModulated = true;
     }
   };
 
@@ -32,7 +36,7 @@ export default function MasterLFOController() {
       styles={{ body: { padding: '0.5rem 1rem 1rem' } }}
     >
       <Tabs
-      onChange={(key) => setCurrentLfo(+key as 1 | 2 | 3)}
+        onChange={(key) => setCurrentLfo(+key as 1 | 2 | 3)}
         items={[
           { label: 'LFO 1', key: '1' },
           { label: 'LFO 2', key: '2' },
@@ -41,11 +45,9 @@ export default function MasterLFOController() {
           ...item,
           children: (
             <Flex vertical>
-              <SingleLfoController
-                lfoKey={`lfo${item.key}` as keyof typeof lfoState}
-              />
+              <SingleLfoController lfoKey={`lfo${item.key}` as keyof typeof lfoState} />
               <Divider />
-              <Form layout="inline" style={{  }}>
+              <Form layout="inline" style={{}}>
                 <Form.Item label="Effect ID">
                   <Input
                     value={newConnection.effectId}

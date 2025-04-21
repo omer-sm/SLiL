@@ -3,6 +3,7 @@ import { useSnapshot } from 'valtio';
 import { lfoState } from '../../../state/LFO/lfoState';
 import { updateLfoConnection } from '../../../state/LFO/utils';
 import CloseIcon from '@mui/icons-material/Close';
+import { modulatablesState } from '../../../state/Modulatables/modulatablesState'
 
 interface SingleLfoControllerProps {
   lfoKey: keyof typeof lfoState;
@@ -90,6 +91,7 @@ export default function SingleLfoController({ lfoKey }: SingleLfoControllerProps
                   onClick={() => {
                     lfoState[lfoKey].connections.splice(index, 1);
                     lfoState[lfoKey].connections = [...lfoState[lfoKey].connections];
+                    modulatablesState.params[connection.effectId][connection.param].isModulated = false;
                   }}
                   variant="outlined"
                   color="danger"

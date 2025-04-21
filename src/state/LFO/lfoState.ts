@@ -17,13 +17,13 @@ interface LFOControllerState {
   connections: LFOConnection[];
 }
 
-interface LFOState {
+interface LFOStateType {
   lfo1: LFOControllerState;
   lfo2: LFOControllerState;
   lfo3: LFOControllerState;
 }
 
-export const lfoState: LFOState = proxy({
+export const lfoState: LFOStateType = proxy({
   lfo1: {
     shape: 'sine',
     frequency: 1,
