@@ -6,6 +6,7 @@ import { effectChain } from '../../driver/driver';
 import EffectChain, { SynthEffect } from '../../driver/EffectChain';
 import { addModulatableParams, removeEffectFromModulatables } from '../../state/Modulatables/utils';
 import { effectOptions } from '../../tabs/Effects/utils/effectOptions';
+import { removeEffectModulations } from '../../state/LFO/utils'
 
 export const EffectNodesProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -57,6 +58,7 @@ export const EffectNodesProvider: React.FC<{ children: React.ReactNode }> = ({
         prev.filter((edge) => edge.source !== nodeId && edge.target !== nodeId)
       );
       removeEffectFromModulatables(EffectChain.parseId(nodeId));
+      removeEffectModulations(EffectChain.parseId(nodeId))
     },
     [setNodes]
   );
