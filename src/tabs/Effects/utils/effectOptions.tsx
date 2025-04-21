@@ -160,6 +160,17 @@ export const effectOptions: Record<string, EffectOption[]> = {
       ),
     },
   ],
+  PitchShift: [
+    {
+      name: 'pitch',
+      displayName: 'Pitch (semitones)',
+      isModulatable: true,
+      element: (props, changeHandler) => (
+        <Slider min={-12} max={12} step={1} onChangeComplete={changeHandler} {...props} />
+      ),
+    },
+    wetInput,
+  ],
   Limiter: [
     {
       name: 'threshold',
