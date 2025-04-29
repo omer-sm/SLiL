@@ -4,9 +4,13 @@ import { EffectNodesContext } from './EffectNodesContext';
 import { initialEdges, initialNodes } from './initialValues';
 import { effectChain } from '../../driver/driver';
 import EffectChain, { SynthEffect } from '../../driver/EffectChain';
-import { addModulatableParams, removeEffectFromModulatables } from '../../state/Modulatables/utils';
+import {
+  addModulatableParams,
+  removeEffectFromModulatables,
+} from '../../state/Modulatables/utils';
 import { effectOptions } from '../../tabs/Effects/utils/effectOptions';
-import { removeEffectModulations } from '../../state/LFO/utils'
+import { removeEffectModulations } from '../../state/LFO/utils';
+import { PresetEffect } from '../../tabs/Presets/utils/presetTypes';
 
 export const EffectNodesProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -15,9 +19,17 @@ export const EffectNodesProvider: React.FC<{ children: React.ReactNode }> = ({
   const [edges, setEdges] = useState<Edge[]>(initialEdges);
 
   const addNode = useCallback(
-    (effectCtor: () => SynthEffect['node']) => {
+    (
+      effectCtor: () => SynthEffect['node'],
+      effectId?: SynthEffect['id'],
+      effectOpts?: PresetEffect['options']
+    ) => {
       const effect = effectCtor();
-      const effectId = effectChain.addEffect(effect);
+      effectId = effectChain.addEffect(effect, effectId);
+
+      if (effectOpts !== undefined) {
+        effectChain.changeEffectOptions(effectId, effectOpts);
+      }
 
       const newNode = {
         id: `${effectId}`,
@@ -58,7 +70,7 @@ export const EffectNodesProvider: React.FC<{ children: React.ReactNode }> = ({
         prev.filter((edge) => edge.source !== nodeId && edge.target !== nodeId)
       );
       removeEffectFromModulatables(EffectChain.parseId(nodeId));
-      removeEffectModulations(EffectChain.parseId(nodeId))
+      removeEffectModulations(EffectChain.parseId(nodeId));
     },
     [setNodes]
   );

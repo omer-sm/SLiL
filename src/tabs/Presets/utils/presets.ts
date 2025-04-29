@@ -28,6 +28,37 @@ export const presets: Preset[] = [
                 sustain: 1,
                 release: 0.001
             }
-        }
+        },
+        effects: [
+            {
+                id: 'input',
+                effectName: 'Gain',
+                options: {
+                    gain: 0
+                },
+                inputs: [],
+                outputs: [0]
+            },
+            {
+                id: 'output',
+                effectName: 'Gain',
+                options: {
+                    gain: 0
+                },
+                inputs: [0],
+                outputs: []
+            },
+            {
+                id: 0,
+                effectName: 'Reverb',
+                options: {
+                    decay: 1,
+                    preDelay: 0.01,
+                    wet: 1
+                },
+                inputs: ['input'],
+                outputs: ['output']
+            }
+        ]
     }
 ];
