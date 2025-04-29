@@ -1,5 +1,5 @@
 import { getContext } from 'tone';
-import DriverSynth from './DriverSynth';
+import DriverSynth from './DriverSynth/DriverSynth';
 import EffectChain from './EffectChain';
 import LFOController from './LFOController'
 

@@ -7,25 +7,13 @@ import {
   Synth,
 } from 'tone';
 import { NormalRange, Time, Frequency } from 'tone/build/esm/core/type/Units';
-import { Instrument, InstrumentOptions } from 'tone/build/esm/instrument/Instrument';
-import { semitonesToCents } from '../utils/noteUtils';
+import { Instrument } from 'tone/build/esm/instrument/Instrument';
+import { semitonesToCents } from '../../utils/noteUtils';
 import { RecursivePartial } from 'tone/build/esm/core/util/Interface';
-
-export interface AdditionalSubsynthOpts {
-  currentSemitoneShift: number;
-  unisonVoices: number;
-  unisonDetune: number;
-  panners: PanVol[];
-}
-
-interface DriverSynthOptions extends InstrumentOptions {
-  synth1: Synth[];
-  synth2: Synth[];
-  synth1Opts: AdditionalSubsynthOpts;
-  synth2Opts: AdditionalSubsynthOpts;
-  masterEnvelope: RecursivePartial<Omit<EnvelopeOptions, 'context'>>;
-  limiter: Limiter;
-}
+import {
+  AdditionalSubsynthOpts,
+  DriverSynthOptions,
+} from './driverSynthTypes';
 
 export default class DriverSynth extends Instrument<DriverSynthOptions> {
   readonly name = 'DriverSynth';
@@ -126,7 +114,7 @@ export default class DriverSynth extends Instrument<DriverSynthOptions> {
 
       subsynth[voiceIndex].set({
         detune: newDetune * multiplier,
-        oscillator: { phase: (multiplier * 360) / 2 * Math.random() },
+        oscillator: { phase: ((multiplier * 360) / 2) * Math.random() },
       });
       subsynthOpts.panners[voiceIndex].set({
         pan: multiplier,
@@ -134,7 +122,7 @@ export default class DriverSynth extends Instrument<DriverSynthOptions> {
       });
       subsynth[voiceIndex + 1].set({
         detune: -newDetune * multiplier,
-        oscillator: { phase: (multiplier * 360) / 2 * Math.random() + 180 },
+        oscillator: { phase: ((multiplier * 360) / 2) * Math.random() + 180 },
       });
       subsynthOpts.panners[voiceIndex + 1].set({
         pan: -multiplier,
@@ -184,7 +172,7 @@ export default class DriverSynth extends Instrument<DriverSynthOptions> {
 
     subsynthOpts.unisonVoices = newVoices;
     // rebalance the voices
-    this.setUnisonDetune(subsynthNumber, newDetune ?? subsynthOpts.unisonDetune); 
+    this.setUnisonDetune(subsynthNumber, newDetune ?? subsynthOpts.unisonDetune);
   }
 
   static getDefaults() {
