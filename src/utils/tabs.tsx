@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import SynthTab from '../tabs/Synth/SynthTab';
 import PreviewTab from '../tabs/Preview/PreviewTab';
 import EffectsTab from '../tabs/Effects/EffectsTab';
+import PresetsTab from '../tabs/Presets/PresetsTab'
 
 interface Tab {
   component: ReactNode;
@@ -24,5 +25,10 @@ export const tabs: Tab[] = [
     label: 'Preview',
     key: 3,
     component: <PreviewTab />,
+  },
+  {
+    label: 'Presets',
+    key: 4,
+    component: <PresetsTab />,
   },
 ];

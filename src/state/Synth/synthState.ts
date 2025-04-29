@@ -15,7 +15,7 @@ export interface subSynthOpts {
   };
 }
 
-interface SynthStateType {
+export interface SynthStateType {
   synth1Opts: subSynthOpts;
   synth2Opts: subSynthOpts;
   masterEnvelope: RecursivePartial<Omit<EnvelopeOptions, 'context'>>;
