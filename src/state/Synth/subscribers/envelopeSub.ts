@@ -18,4 +18,8 @@ export default () => {
   subscribeKey(synthState.masterEnvelope, 'release', (newRelease) => {
     driverSynth.changeEnvelope({ release: newRelease });
   });
+
+  subscribeKey(synthState, 'masterEnvelope', (newEnvelope) => {
+    driverSynth.changeEnvelope(newEnvelope);
+  });
 };
