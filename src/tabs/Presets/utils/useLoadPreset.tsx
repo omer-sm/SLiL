@@ -38,7 +38,7 @@ export const useLoadPreset = () => {
         }
 
         addNode(effectCtor, effect.id, effect.options);
-        effectChain.effectIdCounter = Math.max(effect.id, effectChain.effectIdCounter);
+        effectChain.effectIdCounter = Math.max(effect.id + 1, effectChain.effectIdCounter);
       }
     });
 
