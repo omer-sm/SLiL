@@ -18,7 +18,7 @@ interface LFOControllerState {
   connections: LFOConnection[];
 }
 
-interface LFOStateType {
+export interface LFOStateType {
   lfo1: LFOControllerState;
   lfo2: LFOControllerState;
   lfo3: LFOControllerState;
