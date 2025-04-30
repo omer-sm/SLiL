@@ -3,7 +3,6 @@ import { lfoState } from '../lfoState';
 import { lfos } from '../../../driver/driver';
 
 export default () => {
-  // Subscribe to LFO 1
   subscribeKey(lfoState.lfo1, 'shape', (newShape) => {
     lfos[0].setShape(newShape);
   });
@@ -22,7 +21,6 @@ export default () => {
     });
   });
 
-  // Subscribe to LFO 2
   subscribeKey(lfoState.lfo2, 'shape', (newShape) => {
     lfos[1].setShape(newShape);
   });
@@ -41,7 +39,6 @@ export default () => {
     });
   });
 
-  // Subscribe to LFO 3
   subscribeKey(lfoState.lfo3, 'shape', (newShape) => {
     lfos[2].setShape(newShape);
   });

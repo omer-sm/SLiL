@@ -2,7 +2,7 @@ import { Preset } from './presetTypes';
 
 export const presets: Preset[] = [
   {
-    name: 'Demo Supersaw',
+    name: 'Test Supersaw',
     synthOpts: {
       synth1Opts: {
         waveform: 'sawtooth',
@@ -34,7 +34,7 @@ export const presets: Preset[] = [
         id: 'input',
         effectName: 'Gain',
         options: {
-          gain: 0,
+          gain: 1,
         },
         inputs: [],
         outputs: [0],
@@ -43,7 +43,7 @@ export const presets: Preset[] = [
         id: 'output',
         effectName: 'Gain',
         options: {
-          gain: 0,
+          gain: 1,
         },
         inputs: [0],
         outputs: [],
@@ -71,8 +71,8 @@ export const presets: Preset[] = [
     ],
     lfos: {
       lfo1: {
-        shape: 'sawtooth',
-        frequency: '4n',
+        shape: 'triangle',
+        frequency: '8n',
         isSyncedToBPM: true,
         connections: [
           {
@@ -83,6 +83,94 @@ export const presets: Preset[] = [
             max: 1,
           },
         ],
+      },
+      lfo2: {
+        shape: 'sine',
+        frequency: '1m',
+        isSyncedToBPM: true,
+        connections: [],
+      },
+      lfo3: {
+        shape: 'sine',
+        frequency: '1m',
+        isSyncedToBPM: true,
+        connections: [],
+      },
+    },
+  },
+  {
+    name: 'Reese Bass',
+    synthOpts: {
+      synth1Opts: {
+        waveform: 'sawtooth',
+        volume: -18,
+        semitoneShift: 0,
+        unisonOpts: {
+          detune: 40,
+          voices: 9,
+        },
+      },
+      synth2Opts: {
+        waveform: 'square',
+        volume: -24,
+        semitoneShift: -24,
+        unisonOpts: {
+          detune: 20,
+          voices: 3,
+        },
+      },
+      masterEnvelope: {
+        attack: 0.001,
+        decay: 0,
+        sustain: 1,
+        release: 0.001,
+      },
+    },
+    effects: [
+      {
+        id: 'input',
+        effectName: 'Gain',
+        options: {
+          gain: 1,
+        },
+        inputs: [],
+        outputs: [0],
+      },
+      {
+        id: 'output',
+        effectName: 'Gain',
+        options: {
+          gain: 1,
+        },
+        inputs: [1],
+        outputs: [],
+      },
+      {
+        id: 0,
+        effectName: 'Distortion',
+        options: {
+          distortion: 0.2,
+          wet: 0.4,
+        },
+        inputs: ['input'],
+        outputs: [1],
+      },
+      {
+        id: 1,
+        effectName: 'Gain',
+        options: {
+          gain: 0.5
+        },
+        inputs: [0],
+        outputs: ['output'],
+      },
+    ],
+    lfos: {
+      lfo1: {
+        shape: 'sine',
+        frequency: '1m',
+        isSyncedToBPM: true,
+        connections: [],
       },
       lfo2: {
         shape: 'sine',

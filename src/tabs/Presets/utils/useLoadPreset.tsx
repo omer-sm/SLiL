@@ -4,55 +4,73 @@ import { Preset } from './presetTypes';
 import { effectChain } from '../../../driver/driver';
 import { effectButtons } from '../../Effects/utils/effectButtons';
 import { useEffectNodes } from '../../../context/EffectNodesContext/useEffectNodes';
+import { lfoState, LFOStateType } from '../../../state/LFO/lfoState';
 
 export const useLoadPreset = () => {
   const { addNode, addEdge, setEdges } = useEffectNodes();
 
-  const loadPreset = useCallback((preset: Preset) => {
-    synthState.masterEnvelope = preset.synthOpts.masterEnvelope;
-    synthState.synth1Opts = preset.synthOpts.synth1Opts;
-    synthState.synth2Opts = preset.synthOpts.synth2Opts;
-    
-    try {
-      effectChain.removeConnection('input', 'output');
-    } catch {
-      // If the connection does not exist, do nothing
-      (() => {})();
-    }
+  const loadPreset = useCallback(
+    (preset: Preset) => {
+      // Load synth options
+      synthState.masterEnvelope = preset.synthOpts.masterEnvelope;
+      synthState.synth1Opts = preset.synthOpts.synth1Opts;
+      synthState.synth2Opts = preset.synthOpts.synth2Opts;
 
-    setEdges([]);
-    effectChain.clearEffects();
-
-    preset.effects.forEach((effect) => {
-      if (effect.id === 'input' || effect.id === 'output') {
-        effectChain.changeEffectOptions(effect.id, effect.options);
-      } else {
-        const effectCtor = effectButtons.find(
-          ({ name }) => name === effect.effectName
-        )?.createEffect;
-
-        if (effectCtor === undefined) {
-          console.error('Invalid effect name in preset', effect.effectName);
-
-          return;
-        }
-
-        addNode(effectCtor, effect.id, effect.options);
-        effectChain.effectIdCounter = Math.max(effect.id + 1, effectChain.effectIdCounter);
+      // Load effects
+      try {
+        effectChain.removeConnection('input', 'output');
+      } catch {
+        // If the connection does not exist, do nothing
+        (() => {})();
       }
-    });
 
-    preset.effects.forEach((effect) => {
+      setEdges([]);
+      effectChain.clearEffects();
+
+      preset.effects.forEach((effect) => {
+        if (effect.id === 'input' || effect.id === 'output') {
+          effectChain.changeEffectOptions(effect.id, effect.options);
+        } else {
+          const effectCtor = effectButtons.find(
+            ({ name }) => name === effect.effectName
+          )?.createEffect;
+
+          if (effectCtor === undefined) {
+            console.error('Invalid effect name in preset', effect.effectName);
+
+            return;
+          }
+
+          addNode(effectCtor, effect.id, effect.options);
+          effectChain.effectIdCounter = Math.max(
+            effect.id + 1,
+            effectChain.effectIdCounter
+          );
+        }
+      });
+
+      preset.effects.forEach((effect) => {
         effect.inputs.forEach((input) => {
-            addEdge({
-                source: `${input}`,
-                target: `${effect.id}`,
-                sourceHandle: null,
-                targetHandle: null
-            })
-        })
-    });
-  }, [addNode, addEdge, setEdges]);
+          addEdge({
+            source: `${input}`,
+            target: `${effect.id}`,
+            sourceHandle: null,
+            targetHandle: null,
+          });
+        });
+      });
+
+      // Load LFOs
+      [1, 2, 3].forEach((lfoNum) => {
+        const lfoKey = `lfo${lfoNum}` as keyof LFOStateType;
+        lfoState[lfoKey].connections = [...preset.lfos[lfoKey].connections];
+        lfoState[lfoKey].isSyncedToBPM = preset.lfos[lfoKey].isSyncedToBPM;
+        lfoState[lfoKey].frequency = preset.lfos[lfoKey].frequency;
+        lfoState[lfoKey].shape = preset.lfos[lfoKey].shape;
+      });
+    },
+    [addNode, addEdge, setEdges]
+  );
 
   return loadPreset;
 };
