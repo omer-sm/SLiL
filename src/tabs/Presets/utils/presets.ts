@@ -54,7 +54,7 @@ export const presets: Preset[] = [
                 options: {
                     decay: 1,
                     preDelay: 0.01,
-                    wet: 1
+                    wet: 0.4
                 },
                 inputs: ['input'],
                 outputs: ['output']

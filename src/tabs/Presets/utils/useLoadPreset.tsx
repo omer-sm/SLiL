@@ -6,17 +6,22 @@ import { effectButtons } from '../../Effects/utils/effectButtons';
 import { useEffectNodes } from '../../../context/EffectNodesContext/useEffectNodes';
 
 export const useLoadPreset = () => {
-  const { addNode } = useEffectNodes();
+  const { addNode, addEdge, setEdges } = useEffectNodes();
 
   const loadPreset = useCallback((preset: Preset) => {
     synthState.masterEnvelope = preset.synthOpts.masterEnvelope;
     synthState.synth1Opts = preset.synthOpts.synth1Opts;
     synthState.synth2Opts = preset.synthOpts.synth2Opts;
+    
+    try {
+      effectChain.removeConnection('input', 'output');
+    } catch {
+      // If the connection does not exist, do nothing
+      (() => {})();
+    }
 
-    effectChain.effects.clear();
-    effectChain.effectIdCounter = 0;
-    effectChain.addEffect(effectChain.input, 'input');
-    effectChain.addEffect(effectChain.output, 'output');
+    setEdges([]);
+    effectChain.clearEffects();
 
     preset.effects.forEach((effect) => {
       if (effect.id === 'input' || effect.id === 'output') {
@@ -36,7 +41,18 @@ export const useLoadPreset = () => {
         effectChain.effectIdCounter = Math.max(effect.id, effectChain.effectIdCounter);
       }
     });
-  }, [addNode]);
+
+    preset.effects.forEach((effect) => {
+        effect.inputs.forEach((input) => {
+            addEdge({
+                source: `${input}`,
+                target: `${effect.id}`,
+                sourceHandle: null,
+                targetHandle: null
+            })
+        })
+    });
+  }, [addNode, addEdge, setEdges]);
 
   return loadPreset;
 };
