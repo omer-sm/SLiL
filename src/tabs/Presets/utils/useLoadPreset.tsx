@@ -5,6 +5,7 @@ import { effectChain } from '../../../driver/driver';
 import { effectButtons } from '../../Effects/utils/effectButtons';
 import { useEffectNodes } from '../../../context/EffectNodesContext/useEffectNodes';
 import { lfoState, LFOStateType } from '../../../state/LFO/lfoState';
+import { setSubsynthOpts } from '../../../state/Synth/subscribers/setters'
 
 export const useLoadPreset = () => {
   const { addNode, addEdge, setEdges } = useEffectNodes();
@@ -12,9 +13,9 @@ export const useLoadPreset = () => {
   const loadPreset = useCallback(
     (preset: Preset) => {
       // Load synth options
-      synthState.masterEnvelope = preset.synthOpts.masterEnvelope;
-      synthState.synth1Opts = preset.synthOpts.synth1Opts;
-      synthState.synth2Opts = preset.synthOpts.synth2Opts;
+      Object.assign(synthState.masterEnvelope, preset.synthOpts.masterEnvelope);
+      setSubsynthOpts(1, preset.synthOpts.synth1Opts);
+      setSubsynthOpts(2, preset.synthOpts.synth2Opts);
 
       // Load effects
       try {

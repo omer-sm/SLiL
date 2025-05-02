@@ -100,6 +100,10 @@ export default class DriverSynth extends Instrument<DriverSynthOptions> {
   ) {
     const subsynth = subsynthNumber === 1 ? this.synth1 : this.synth2;
     const subsynthOpts = subsynthNumber === 1 ? this.synth1Opts : this.synth2Opts;
+    subsynth[0].set({
+      detune: semitonesToCents(subsynthOpts.currentSemitoneShift),
+      oscillator: { phase: 0 },
+    });
     subsynthOpts.panners[0].set({
       pan: 0,
       volume: -6 - subsynthOpts.unisonVoices * 1.1,
@@ -113,7 +117,7 @@ export default class DriverSynth extends Instrument<DriverSynthOptions> {
       const multiplier = (voiceIndex + 2) / subsynthOpts.unisonVoices;
 
       subsynth[voiceIndex].set({
-        detune: newDetune * multiplier,
+        detune: semitonesToCents(subsynthOpts.currentSemitoneShift) + newDetune * multiplier,
         oscillator: { phase: ((multiplier * 360) / 2) * Math.random() },
       });
       subsynthOpts.panners[voiceIndex].set({
@@ -121,7 +125,7 @@ export default class DriverSynth extends Instrument<DriverSynthOptions> {
         volume: -6 - subsynthOpts.unisonVoices * 1.1,
       });
       subsynth[voiceIndex + 1].set({
-        detune: -newDetune * multiplier,
+        detune: semitonesToCents(subsynthOpts.currentSemitoneShift) - newDetune * multiplier,
         oscillator: { phase: ((multiplier * 360) / 2) * Math.random() + 180 },
       });
       subsynthOpts.panners[voiceIndex + 1].set({
@@ -150,7 +154,7 @@ export default class DriverSynth extends Instrument<DriverSynthOptions> {
         subsynth[voiceIndex] = new PolySynth(Synth, {
           oscillator: { type: 'sine' },
           envelope: this.masterEnvelope,
-          volume: -12,
+          volume: -12
         });
         subsynth[voiceIndex].set(subsynth[0].get());
         subsynthOpts.panners.push(new PanVol().connect(this.limiter));

@@ -26,7 +26,7 @@ export const presets: Preset[] = [
         attack: 0.001,
         decay: 0,
         sustain: 1,
-        release: 0.001,
+        release: 1,
       },
     },
     effects: [

@@ -5,7 +5,7 @@ import { RecursivePartial } from 'tone/build/esm/core/util/Interface';
 import { EnvelopeOptions } from 'tone';
 import { subscribeSynth } from './subscribers';
 
-export interface subSynthOpts {
+export interface SubSynthOpts {
   waveform: (typeof waveforms)[number];
   volume: Decibels;
   semitoneShift: number;
@@ -16,8 +16,8 @@ export interface subSynthOpts {
 }
 
 export interface SynthStateType {
-  synth1Opts: subSynthOpts;
-  synth2Opts: subSynthOpts;
+  synth1Opts: SubSynthOpts;
+  synth2Opts: SubSynthOpts;
   masterEnvelope: RecursivePartial<Omit<EnvelopeOptions, 'context'>>;
 }
 

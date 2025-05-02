@@ -1,10 +1,10 @@
 import { useSnapshot } from 'valtio';
-import { subSynthOpts } from '../../state/Synth/synthState';
+import { SubSynthOpts } from '../../state/Synth/synthState';
 import { waveforms } from '../../utils/waveforms';
 import { Flex, Form, Select, Slider } from 'antd';
 
 interface SubsynthControllerProps {
-  subsynth: subSynthOpts;
+  subsynth: SubSynthOpts;
 }
 
 export default function SubsynthController({ subsynth }: SubsynthControllerProps) {
