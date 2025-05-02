@@ -15,6 +15,8 @@ const lightModeToken: Partial<AliasToken> = {
 
 const darkModeToken: Partial<AliasToken> = {
   colorBgBase: '#111111',
+  fontFamily: 'Tomorrow',
+  fontSize: 16,
 };
 
 export const themeState: themeStateType = proxy({
