@@ -26,9 +26,7 @@ export default () => {
   subscribeKey(synthState.synth1Opts, 'volume', (newVolume) => {
     driverSynth.synth1.forEach((voice) =>
       voice.set({
-        oscillator: {
-          volume: newVolume,
-        },
+        volume: newVolume,
       })
     );
   });
@@ -36,9 +34,7 @@ export default () => {
   subscribeKey(synthState.synth2Opts, 'volume', (newVolume) => {
     driverSynth.synth2.forEach((voice) =>
       voice.set({
-        oscillator: {
-          volume: newVolume,
-        },
+        volume: newVolume,
       })
     );
   });
