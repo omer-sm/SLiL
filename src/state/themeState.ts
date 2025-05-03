@@ -11,6 +11,8 @@ interface themeStateType {
 
 const lightModeToken: Partial<AliasToken> = {
   colorBgBase: '#DDDDFF',
+  fontFamily: 'Tomorrow',
+  fontSize: 16,
 };
 
 const darkModeToken: Partial<AliasToken> = {
