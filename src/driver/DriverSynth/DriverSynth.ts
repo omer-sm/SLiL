@@ -1,6 +1,5 @@
 import {
   EnvelopeOptions,
-  EQ3,
   Limiter,
   optionsFromArguments,
   PanVol,
@@ -24,7 +23,6 @@ export default class DriverSynth extends Instrument<DriverSynthOptions> {
   synth2Opts: AdditionalSubsynthOpts;
   masterEnvelope: RecursivePartial<Omit<EnvelopeOptions, 'context'>>;
   readonly limiter: Limiter;
-  readonly eq: EQ3;
 
   constructor() {
     // eslint-disable-next-line prefer-rest-params
@@ -67,12 +65,10 @@ export default class DriverSynth extends Instrument<DriverSynthOptions> {
     ];
 
     this.limiter = new Limiter(-12);
-    this.eq = new EQ3();
     this.synth1[0].connect(this.synth1Opts.panners[0]);
     this.synth2[0].connect(this.synth2Opts.panners[0]);
-    this.synth1Opts.panners[0].connect(this.eq);
-    this.synth2Opts.panners[0].connect(this.eq);
-    this.eq.connect(this.limiter);
+    this.synth1Opts.panners[0].connect(this.limiter);
+    this.synth2Opts.panners[0].connect(this.limiter);
     this.limiter.connect(this.output);
   }
 
@@ -161,7 +157,7 @@ export default class DriverSynth extends Instrument<DriverSynthOptions> {
           volume: -12
         });
         subsynth[voiceIndex].set(subsynth[0].get());
-        subsynthOpts.panners.push(new PanVol().connect(this.eq));
+        subsynthOpts.panners.push(new PanVol().connect(this.limiter));
         subsynth[voiceIndex].connect(subsynthOpts.panners[voiceIndex]);
       }
     } else {

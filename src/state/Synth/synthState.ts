@@ -1,4 +1,4 @@
-import { Decibels, Frequency } from 'tone/build/esm/core/type/Units';
+import { Decibels } from 'tone/build/esm/core/type/Units';
 import { proxy } from 'valtio';
 import { waveforms } from '../../utils/waveforms';
 import { RecursivePartial } from 'tone/build/esm/core/util/Interface';
@@ -15,19 +15,10 @@ export interface SubSynthOpts {
   };
 }
 
-export interface EQOpts {
-  lowLevel: Decibels;
-  midLevel: Decibels;
-  highLevel: Decibels;
-  lowFrequency: Frequency;
-  highFrequency: Frequency;
-}
-
 export interface SynthStateType {
   synth1Opts: SubSynthOpts;
   synth2Opts: SubSynthOpts;
   masterEnvelope: RecursivePartial<Omit<EnvelopeOptions, 'context'>>;
-  eq: EQOpts;
 }
 
 export const synthState: SynthStateType = proxy({
@@ -54,13 +45,6 @@ export const synthState: SynthStateType = proxy({
     decay: 0,
     sustain: 1,
     release: 0.01,
-  },
-  eq: {
-    lowLevel: 0,
-    midLevel: 0,
-    highLevel: 0,
-    lowFrequency: 400,
-    highFrequency: 2500,
   },
 });
 

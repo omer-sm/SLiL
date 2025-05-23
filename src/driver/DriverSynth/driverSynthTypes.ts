@@ -1,4 +1,4 @@
-import { EnvelopeOptions, EQ3, Limiter, PanVol, Synth } from "tone"
+import { EnvelopeOptions, Limiter, PanVol, Synth } from "tone"
 import { RecursivePartial } from "tone/build/esm/core/util/Interface"
 import { InstrumentOptions } from "tone/build/esm/instrument/Instrument"
 
@@ -16,5 +16,4 @@ export interface DriverSynthOptions extends InstrumentOptions {
   synth2Opts: AdditionalSubsynthOpts;
   masterEnvelope: RecursivePartial<Omit<EnvelopeOptions, 'context'>>;
   limiter: Limiter;
-  eq: EQ3;
 }
