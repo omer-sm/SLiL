@@ -7,7 +7,7 @@ import ParamEQ from './ParamEQ'
 const driverSynth = new DriverSynth();
 export const effectChain = new EffectChain({ context: getContext() });
 driverSynth.connect(effectChain.input);
-const eq = new ParamEQ({numFilters: 7, context: getContext()});
+export const eq = new ParamEQ({numFilters: 7, context: getContext()});
 effectChain.connect(eq.input);
 eq.toDestination();
 
