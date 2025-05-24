@@ -1,0 +1,5 @@
+.eq-label > label::before {
+    content: ':';
+    visibility: hidden;
+    margin-left: 10px;
+}
