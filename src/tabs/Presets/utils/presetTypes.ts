@@ -1,4 +1,5 @@
 import { SynthEffect } from "../../../driver/EffectChain"
+import { EQStateType } from "../../../state/EQ/eqState"
 import { LFOStateType } from "../../../state/LFO/lfoState"
 import { SynthStateType } from "../../../state/Synth/synthState"
 
@@ -15,4 +16,5 @@ export interface Preset {
     synthOpts: SynthStateType;
     effects: PresetEffect[];
     lfos: LFOStateType;
+    eq: EQStateType;
 }

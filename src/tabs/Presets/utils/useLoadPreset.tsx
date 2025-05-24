@@ -6,6 +6,7 @@ import { effectButtons } from '../../Effects/utils/effectButtons';
 import { useEffectNodes } from '../../../context/EffectNodesContext/useEffectNodes';
 import { lfoState, LFOStateType } from '../../../state/LFO/lfoState';
 import { setSubsynthOpts } from '../../../state/Synth/subscribers/setters'
+import { eqState } from '../../../state/EQ/eqState'
 
 export const useLoadPreset = () => {
   const { addNode, addEdge, setEdges } = useEffectNodes();
@@ -68,6 +69,13 @@ export const useLoadPreset = () => {
         lfoState[lfoKey].isSyncedToBPM = preset.lfos[lfoKey].isSyncedToBPM;
         lfoState[lfoKey].frequency = preset.lfos[lfoKey].frequency;
         lfoState[lfoKey].shape = preset.lfos[lfoKey].shape;
+      });
+
+      // Load EQ
+      eqState.bands.forEach((band, index) => {
+        band.frequency = preset.eq.bands[index].frequency;
+        band.gain = preset.eq.bands[index].gain;
+        band.Q = preset.eq.bands[index].Q;
       });
     },
     [addNode, addEdge, setEdges]

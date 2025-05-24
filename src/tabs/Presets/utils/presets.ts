@@ -97,6 +97,45 @@ export const presets: Preset[] = [
         connections: [],
       },
     },
+    eq: {
+      bands: [
+        {
+          frequency: 60,
+          gain: 0,
+          Q: 1,
+        },
+        {
+          frequency: 170,
+          gain: 0,
+          Q: 1,
+        },
+        {
+          frequency: 350,
+          gain: -3,
+          Q: 1,
+        },
+        {
+          frequency: 1000,
+          gain: 0,
+          Q: 1,
+        },
+        {
+          frequency: 3500,
+          gain: 0,
+          Q: 1,
+        },
+        {
+          frequency: 10000,
+          gain: 3,
+          Q: 1.5,
+        },
+        {
+          frequency: 12000,
+          gain: 0,
+          Q: 1,
+        },
+      ],
+    }
   },
   {
     name: 'Reese Bass',
@@ -185,5 +224,44 @@ export const presets: Preset[] = [
         connections: [],
       },
     },
+    eq: {
+      bands: [
+        {
+          frequency: 60,
+          gain: 0,
+          Q: 1,
+        },
+        {
+          frequency: 170,
+          gain: 0,
+          Q: 1,
+        },
+        {
+          frequency: 350,
+          gain: 0,
+          Q: 1,
+        },
+        {
+          frequency: 1000,
+          gain: 0,
+          Q: 1,
+        },
+        {
+          frequency: 3500,
+          gain: 0,
+          Q: 1,
+        },
+        {
+          frequency: 10000,
+          gain: -3,
+          Q: 1.5,
+        },
+        {
+          frequency: 12000,
+          gain: -6,
+          Q: 1,
+        },
+      ],
+    }
   },
 ];
