@@ -3,10 +3,14 @@ import { presets } from './utils/presets';
 import { usePreset } from './utils/usePreset';
 import { useState } from 'react';
 import { decompressFromBase64 } from 'lz-string';
+import { useSnapshot } from 'valtio';
+import { synthState } from '../../state/Synth/synthState';
 
 export default function PresetsTab() {
   const { loadPreset, saveAsPreset } = usePreset();
+  const synthSnap = useSnapshot(synthState);
   const [presetString, setPresetString] = useState<string>('');
+  const [saveModalOpen, setSaveModalOpen] = useState<boolean>(false);
   const [loadModalOpen, setLoadModalOpen] = useState<boolean>(false);
   const [presetToLoad, setPresetToLoad] = useState<string>('');
 
@@ -24,10 +28,7 @@ export default function PresetsTab() {
             >
               Load Preset
             </Button>
-            <Button
-              type="primary"
-              onClick={() => setPresetString(saveAsPreset('preset name'))}
-            >
+            <Button type="primary" onClick={() => setSaveModalOpen(true)}>
               Save Preset
             </Button>
           </>
@@ -55,7 +56,13 @@ export default function PresetsTab() {
           dataSource={presets}
           renderItem={(preset) => (
             <List.Item>
-              <Button type="primary" onClick={() => loadPreset(preset)}>
+              <Button
+                type="primary"
+                onClick={() => {
+                  setPresetString('');
+                  loadPreset(preset);
+                }}
+              >
                 {preset.name}
               </Button>
             </List.Item>
@@ -83,6 +90,22 @@ export default function PresetsTab() {
           onChange={(event) => setPresetToLoad(event.target.value)}
           placeholder="Paste the preset here..."
         />
+      </Modal>
+      <Modal
+        title="Save Preset"
+        open={saveModalOpen}
+        onOk={() => {
+          setSaveModalOpen(false);
+          setPresetString(saveAsPreset(presetToLoad));
+        }}
+        onCancel={() => setSaveModalOpen(false)}
+      >
+        <Form.Item label="Preset Name">
+          <Input
+            value={synthSnap.name}
+            onChange={(event) => (synthState.name = event.target.value)}
+          />
+        </Form.Item>
       </Modal>
     </>
   );

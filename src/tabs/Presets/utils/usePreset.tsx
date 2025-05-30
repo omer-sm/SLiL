@@ -43,6 +43,7 @@ export const usePreset = () => {
       Object.assign(synthState.masterEnvelope, preset.synthOpts.masterEnvelope);
       setSubsynthOpts(1, preset.synthOpts.synth1Opts);
       setSubsynthOpts(2, preset.synthOpts.synth2Opts);
+      synthState.name = preset.name;
 
       // Load effects
       try {

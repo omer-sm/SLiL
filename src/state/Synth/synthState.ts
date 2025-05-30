@@ -16,12 +16,14 @@ export interface SubSynthOpts {
 }
 
 export interface SynthStateType {
+  name: string;
   synth1Opts: SubSynthOpts;
   synth2Opts: SubSynthOpts;
   masterEnvelope: RecursivePartial<Omit<EnvelopeOptions, 'context'>>;
 }
 
 export const synthState: SynthStateType = proxy({
+  name: 'Default',
   synth1Opts: {
     waveform: 'sine',
     volume: -12,
