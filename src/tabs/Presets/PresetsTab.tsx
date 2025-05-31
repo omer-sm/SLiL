@@ -104,7 +104,6 @@ export default function PresetsTab() {
                 <Input readOnly style={{ marginBottom: '0.3rem' }} value={presetString} />
               </Flex>
             </Form.Item>
-            <Divider />
           </Card>
         )}
         <List
