@@ -17,9 +17,8 @@ export const usePreset = () => {
   const eqSnap = useSnapshot(eqState);
 
   const saveAsPreset = useCallback(
-    (name: string) => {
+    () => {
       const preset: Preset = {
-        name,
         synthOpts: synthSnap as SynthStateType,
         effects: [...effectChain.effects.values()].map((effect) => ({
           id: effect.id,
@@ -43,7 +42,7 @@ export const usePreset = () => {
       Object.assign(synthState.masterEnvelope, preset.synthOpts.masterEnvelope);
       setSubsynthOpts(1, preset.synthOpts.synth1Opts);
       setSubsynthOpts(2, preset.synthOpts.synth2Opts);
-      synthState.name = preset.name;
+      synthState.name = preset.synthOpts.name;
 
       // Load effects
       try {

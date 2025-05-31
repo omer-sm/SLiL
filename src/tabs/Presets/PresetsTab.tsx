@@ -117,7 +117,7 @@ export default function PresetsTab() {
                   loadPresetWithNotification(preset);
                 }}
               >
-                {preset.name}
+                {preset.synthOpts.name}
               </Button>
             </List.Item>
           )}
@@ -157,7 +157,7 @@ export default function PresetsTab() {
         open={saveModalOpen}
         onOk={() => {
           setSaveModalOpen(false);
-          setPresetString(saveAsPreset(synthSnap.name));
+          setPresetString(saveAsPreset());
         }}
         onCancel={() => setSaveModalOpen(false)}
       >

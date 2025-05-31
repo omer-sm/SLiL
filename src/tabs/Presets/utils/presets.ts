@@ -2,8 +2,8 @@ import { Preset } from './presetTypes';
 
 export const presets: Preset[] = [
   {
-    name: 'Test Supersaw',
     synthOpts: {
+      name: 'Test Supersaw',
       synth1Opts: {
         waveform: 'sawtooth',
         volume: -12,
@@ -138,8 +138,8 @@ export const presets: Preset[] = [
     }
   },
   {
-    name: 'Reese Bass',
     synthOpts: {
+      name: 'Reese Bass',
       synth1Opts: {
         waveform: 'sawtooth',
         volume: -18,

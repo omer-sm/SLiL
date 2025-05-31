@@ -12,7 +12,6 @@ export interface PresetEffect {
 }
 
 export interface Preset {
-    name: string;
     synthOpts: SynthStateType;
     effects: PresetEffect[];
     lfos: LFOStateType;
