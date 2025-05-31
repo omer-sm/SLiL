@@ -1,4 +1,4 @@
-import { Flex, Menu, Button } from 'antd';
+import { Flex, Menu, Button, Divider, Typography } from 'antd';
 import { Dispatch, SetStateAction } from 'react';
 import { tabs } from '../../../utils/tabs';
 import { useSnapshot } from 'valtio';
@@ -13,7 +13,7 @@ interface NavbarProps {
 
 export default function Navbar({ setCurrentTab }: NavbarProps) {
   const { themeMode } = useSnapshot(themeState);
-  const { colorBgContainer } = useToken()[1];
+  const { colorBgContainer, cyan9 } = useToken()[1];
 
   return (
     <Flex
@@ -24,6 +24,10 @@ export default function Navbar({ setCurrentTab }: NavbarProps) {
         padding: '0 1rem',
       }}
     >
+      <Typography.Title level={3} style={{ margin: 0, color: 'inherit', width: '5rem' }}>
+        SL<span style={{color: cyan9, textShadow: `${cyan9} 0px 0px 8px`}}>i</span>L
+      </Typography.Title>
+      <Divider type='vertical' />
       <Menu
         theme="light"
         mode="horizontal"
