@@ -1,11 +1,24 @@
-import { Button, Card, Divider, Form, Input, List, Modal, notification } from 'antd';
+import {
+  Button,
+  Card,
+  Divider,
+  Flex,
+  Form,
+  Input,
+  List,
+  Modal,
+  notification,
+  Tooltip,
+} from 'antd';
 import { presets } from './utils/presets';
 import { usePreset } from './utils/usePreset';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { decompressFromBase64 } from 'lz-string';
 import { useSnapshot } from 'valtio';
 import { synthState } from '../../state/Synth/synthState';
 import { Preset } from './utils/presetTypes';
+// @ts-expect-error no declaration file for 'react-clipboard-animation'
+import Clipboard from 'react-clipboard-animation';
 
 export default function PresetsTab() {
   const { loadPreset, saveAsPreset } = usePreset();
@@ -15,16 +28,30 @@ export default function PresetsTab() {
   const [saveModalOpen, setSaveModalOpen] = useState<boolean>(false);
   const [loadModalOpen, setLoadModalOpen] = useState<boolean>(false);
   const [presetToLoad, setPresetToLoad] = useState<string>('');
+  const [copied, setCopied] = useState<boolean>(false);
 
-  const loadPresetWithNotification = useCallback((preset: Preset) => {
-    loadPreset(preset);
-    api.success({
-      message: 'Preset Loaded!',
-      placement: 'bottomRight',
-      showProgress: true,
-      duration: 2,
-    });
-  }, [loadPreset, api]);
+  const loadPresetWithNotification = useCallback(
+    (preset: Preset) => {
+      loadPreset(preset);
+      api.success({
+        message: 'Preset Loaded!',
+        placement: 'bottomRight',
+        showProgress: true,
+        duration: 2,
+      });
+    },
+    [loadPreset, api]
+  );
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (copied) {
+        setCopied(false);
+      }
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, [copied]);
 
   return (
     <>
@@ -60,7 +87,22 @@ export default function PresetsTab() {
               help="Copy the text above and share it with others to load your preset."
               style={{ marginBottom: 0 }}
             >
-              <Input style={{ marginBottom: '0.3rem' }} value={presetString} />
+              <Flex>
+                <Tooltip
+                  placement="topLeft"
+                  title={copied ? 'Copied!' : 'Copy to clipboard'}
+                >
+                  <Flex style={{ scale: 1.3 }} justify="end" align="center">
+                    <Clipboard
+                      text={presetString}
+                      color="white"
+                      {...{ copied, setCopied }}
+                    />
+                  </Flex>
+                </Tooltip>
+                <Divider type="vertical" style={{ margin: '0 1rem', height: '2rem' }} />
+                <Input readOnly style={{ marginBottom: '0.3rem' }} value={presetString} />
+              </Flex>
             </Form.Item>
             <Divider />
           </Card>
