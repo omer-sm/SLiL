@@ -13,7 +13,8 @@ interface NavbarProps {
 
 export default function Navbar({ setCurrentTab }: NavbarProps) {
   const { themeMode } = useSnapshot(themeState);
-  const { colorBgContainer, cyan9 } = useToken()[1];
+  const { colorBgContainer, cyan9, cyan5 } = useToken()[1];
+  const logoIColor = themeMode === 'dark' ? cyan9 : cyan5;
 
   return (
     <Flex
@@ -25,7 +26,7 @@ export default function Navbar({ setCurrentTab }: NavbarProps) {
       }}
     >
       <Typography.Title level={3} style={{ margin: 0, color: 'inherit', width: '5rem', userSelect: 'none' }}>
-        SL<span style={{color: cyan9, textShadow: `${cyan9} 0px 0px 8px`}}>i</span>L
+        SL<span style={{color: logoIColor, textShadow: `${logoIColor} 0px 0px 8px`}}>i</span>L
       </Typography.Title>
       <Divider type='vertical' />
       <Menu
