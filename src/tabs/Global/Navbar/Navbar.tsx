@@ -24,7 +24,7 @@ export default function Navbar({ setCurrentTab }: NavbarProps) {
         padding: '0 1rem',
       }}
     >
-      <Typography.Title level={3} style={{ margin: 0, color: 'inherit', width: '5rem' }}>
+      <Typography.Title level={3} style={{ margin: 0, color: 'inherit', width: '5rem', userSelect: 'none' }}>
         SL<span style={{color: cyan9, textShadow: `${cyan9} 0px 0px 8px`}}>i</span>L
       </Typography.Title>
       <Divider type='vertical' />
