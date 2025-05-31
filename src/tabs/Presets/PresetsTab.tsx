@@ -1,21 +1,34 @@
-import { Button, Card, Divider, Form, Input, List, Modal } from 'antd';
+import { Button, Card, Divider, Form, Input, List, Modal, notification } from 'antd';
 import { presets } from './utils/presets';
 import { usePreset } from './utils/usePreset';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { decompressFromBase64 } from 'lz-string';
 import { useSnapshot } from 'valtio';
 import { synthState } from '../../state/Synth/synthState';
+import { Preset } from './utils/presetTypes';
 
 export default function PresetsTab() {
   const { loadPreset, saveAsPreset } = usePreset();
+  const [api, contextHolder] = notification.useNotification();
   const synthSnap = useSnapshot(synthState);
   const [presetString, setPresetString] = useState<string>('');
   const [saveModalOpen, setSaveModalOpen] = useState<boolean>(false);
   const [loadModalOpen, setLoadModalOpen] = useState<boolean>(false);
   const [presetToLoad, setPresetToLoad] = useState<string>('');
 
+  const loadPresetWithNotification = useCallback((preset: Preset) => {
+    loadPreset(preset);
+    api.success({
+      message: 'Preset Loaded!',
+      placement: 'bottomRight',
+      showProgress: true,
+      duration: 2,
+    });
+  }, [loadPreset, api]);
+
   return (
     <>
+      {contextHolder}
       <Card
         title="Presets"
         style={{ height: '100%' }}
@@ -60,7 +73,7 @@ export default function PresetsTab() {
                 type="primary"
                 onClick={() => {
                   setPresetString('');
-                  loadPreset(preset);
+                  loadPresetWithNotification(preset);
                 }}
               >
                 {preset.name}
@@ -75,10 +88,17 @@ export default function PresetsTab() {
         onOk={() => {
           try {
             const preset = JSON.parse(decompressFromBase64(presetToLoad));
-            loadPreset(preset);
+            loadPresetWithNotification(preset);
             setLoadModalOpen(false);
           } catch (error) {
             console.error('Failed to load preset:', error);
+            api.error({
+              message: 'Error',
+              description: 'Failed to load preset. Please check the preset format.',
+              placement: 'bottomRight',
+              showProgress: true,
+              duration: 2,
+            });
           }
           setPresetString('');
           setPresetToLoad('');
