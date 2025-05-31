@@ -74,7 +74,7 @@ export default function PresetsTab() {
         open={loadModalOpen}
         onOk={() => {
           try {
-            const preset = JSON.parse(decompressFromBase64(presetString));
+            const preset = JSON.parse(decompressFromBase64(presetToLoad));
             loadPreset(preset);
             setLoadModalOpen(false);
           } catch (error) {
@@ -96,7 +96,7 @@ export default function PresetsTab() {
         open={saveModalOpen}
         onOk={() => {
           setSaveModalOpen(false);
-          setPresetString(saveAsPreset(presetToLoad));
+          setPresetString(saveAsPreset(synthSnap.name));
         }}
         onCancel={() => setSaveModalOpen(false)}
       >
